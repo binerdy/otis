@@ -69,6 +69,10 @@ requested by the user or the person installing or operating it. The only network
 **update check**, which contacts GitHub Releases at startup and every four hours to download new
 versions of Otis. No personal data, scans or fonts are sent.
 
+The optional **Read with Claude** feature sends the pages you choose to Anthropic's API, which may
+process them outside your country or region, using your own API key. It runs only after you enter a
+key in Settings and confirm the notice shown before the first request. Without a key nothing is sent.
+
 ## License
 
 Otis is free software under the GNU General Public License, version 3 or (at your option) any later

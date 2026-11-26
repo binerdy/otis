@@ -83,3 +83,38 @@ the `tessdata` folder of the Otis data folder is used instead of the bundled one
 #### Scenario: Existing letters stay
 - **WHEN** the letter `a` is already cut out
 - **THEN** the initial pick leaves it unchanged
+
+### Requirement: Type a word
+The user SHALL be able to draw a box around a written word (key W) and type its text. Otis SHALL detect
+the guide lines for the box, then split the word into as many letters as the text has characters:
+expected letter widths come from the characters (an `m` is wider than an `i`), and between neighbouring
+letters Otis SHALL find the cut with the least ink, a seam from top to bottom that may bend by one pixel
+per row so it follows slanted joins. Each letter becomes a cutout bounded by its two seams. Characters
+that are still missing SHALL become unsaved changes; characters that are already cut out SHALL be
+listed as skipped. Spaces in the text split the box into words first, at the widest gaps.
+
+#### Scenario: A word becomes its letters
+- **WHEN** the user boxes the written word "Hand" and types "Hand"
+- **THEN** H, a, n and d each get a cutout that contains its own letter and none of its neighbours' bodies
+
+#### Scenario: Known letters are kept
+- **WHEN** `a` is already cut out and the user types "Hand"
+- **THEN** H, n and d become changes and the result says that `a` was skipped
+
+### Requirement: Read with Claude
+With an Anthropic API key in Settings, "Read with Claude" SHALL send the current page, or all pages,
+to Claude (model `claude-opus-5-5`, structured JSON output, server-side refusal fallback) as up to three
+overlapping horizontal strips scaled to at most 1568 pixels on the long side, and ask for every written
+word with its text and bounding box in strip pixels. Otis SHALL map the boxes back to the page, widen
+them slightly, split each word as in "Type a word", and offer the best example of every missing
+character, by quality score, as an unsaved change. Before the first request of a session Otis SHALL
+show what will be sent and where, and nothing SHALL be sent without that confirmation. Errors (missing
+or wrong key, no network, rate limits, a refusal) SHALL be shown in plain words and never lose work.
+
+#### Scenario: Missing letters from a page
+- **WHEN** the user reads a page with Claude and confirms the notice
+- **THEN** missing letters found on that page appear as changed letters for review
+
+#### Scenario: No key
+- **WHEN** no API key is set
+- **THEN** "Read with Claude" explains where to enter one and sends nothing

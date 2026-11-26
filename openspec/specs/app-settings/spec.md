@@ -35,3 +35,12 @@ Users SHALL be able to opt in to nightly pre-releases; otherwise only stable rel
 #### Scenario: Opted-in user
 - **WHEN** nightly builds are enabled
 - **THEN** the updater also considers GitHub pre-releases
+
+### Requirement: Anthropic API key
+Settings SHALL offer an optional Anthropic API key for "Read with Claude". The key SHALL be stored
+encrypted with Windows DPAPI for the current user in the Otis data folder, never in a project file,
+never logged, and SHALL be removable. Without a key, Otis makes no requests to Anthropic.
+
+#### Scenario: Key is not stored in plain text
+- **WHEN** the user saves an API key
+- **THEN** the key cannot be found in any file in the Otis data folder

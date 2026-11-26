@@ -112,7 +112,8 @@ Projects:
 - Built fonts must work in Microsoft Word on Windows: Western code page and Unicode ranges set,
   name records on the Windows platform, installable embedding, Windows metrics that cover every
   glyph so flourishes are not clipped.
-- The app works fully offline. Only the update check uses the network.
+- The app works fully offline. The network is used only for the update check and, when the user has
+  entered an Anthropic API key and starts "Read with Claude", for sending the chosen pages to Anthropic.
 - No telemetry.
 
 ## Licensing
