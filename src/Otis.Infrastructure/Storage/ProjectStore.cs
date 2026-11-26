@@ -38,10 +38,28 @@ public sealed class ProjectStore(TimeProvider time)
 
         var temporary = path + ".tmp";
         File.WriteAllBytes(temporary, bytes);
-        File.Move(temporary, path, overwrite: true);
+        Replace(temporary, path);
     }
 
     private static string BaseName(string path) => Path.GetFileName(path)[..^Extension.Length];
+
+    // Virus scanners and the search indexer briefly hold a file that was just written; Windows then refuses the move.
+    private static void Replace(string source, string target)
+    {
+        var attempt = 0;
+        while (true)
+        {
+            try
+            {
+                File.Move(source, target, overwrite: true);
+                return;
+            }
+            catch (Exception e) when (e is IOException or UnauthorizedAccessException && ++attempt < 10)
+            {
+                Thread.Sleep(20 * attempt);
+            }
+        }
+    }
 
     private void Backup(string path)
     {
