@@ -4,8 +4,7 @@ Otis turns hand lettering into an installable font. Open scanned pages, mark one
 each letter, and Otis cuts it out, traces it into smooth curves and builds a TrueType font that
 works in Word and every other Windows program.
 
-> Status: specification. The capabilities are described in [`openspec/specs`](openspec/specs);
-> the implementation follows.
+> Status: early development (0.1). The capabilities are described in [`openspec/specs`](openspec/specs).
 
 ## How it works
 
