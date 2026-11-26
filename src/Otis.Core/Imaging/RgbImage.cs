@@ -42,6 +42,37 @@ public sealed class RgbImage
         return new RgbImage(clipped.Width, clipped.Height, bytes);
     }
 
+    // Averages blocks of factor × factor pixels.
+    public RgbImage Shrink(int factor)
+    {
+        var width = this.Width / factor;
+        var height = this.Height / factor;
+        var bytes = new byte[width * height * 3];
+        var area = factor * factor;
+        for (var y = 0; y < height; y++)
+        {
+            for (var x = 0; x < width; x++)
+            {
+                for (var c = 0; c < 3; c++)
+                {
+                    var sum = 0;
+                    for (var dy = 0; dy < factor; dy++)
+                    {
+                        for (var dx = 0; dx < factor; dx++)
+                        {
+                            var pixel = (((y * factor) + dy) * this.Width) + (x * factor) + dx;
+                            sum += this.rgb[(pixel * 3) + c];
+                        }
+                    }
+
+                    bytes[(((y * width) + x) * 3) + c] = (byte)(sum / area);
+                }
+            }
+        }
+
+        return new RgbImage(width, height, bytes);
+    }
+
     public PixelRect Clip(PixelRect area) => new(
         Math.Clamp(area.Left, 0, this.Width),
         Math.Clamp(area.Top, 0, this.Height),
