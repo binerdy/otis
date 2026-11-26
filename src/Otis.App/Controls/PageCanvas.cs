@@ -89,6 +89,12 @@ public sealed partial class PageCanvas : Grid
         this.FitRectangle(0, 0, this.page.Width, this.page.Height, margin: 0.98f);
     }
 
+    public void ZoomTo(PixelRect box)
+    {
+        this.userMovedView = true;
+        this.FitRectangle(box.Left - 160, box.Top - 160, box.Right + 160, box.Bottom + 160, margin: 1);
+    }
+
     public void ZoomToCutout()
     {
         if (this.current is null)

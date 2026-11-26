@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Otis.App.Controls;
 using Otis.App.Services;
 using Otis.Core.Building;
+using Otis.Core.Finding;
 using Otis.Core.Glyphs;
 using Otis.Core.Ink;
 using Otis.Core.Projects;
@@ -24,6 +25,7 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
     private readonly Dictionary<string, CharacterCellViewModel> cells = [with(StringComparer.Ordinal)];
     private CancellationTokenSource? previewDelay;
     private CutoutAdjustments pending = CutoutAdjustments.None;
+    private Quality? selectedQuality;
     private List<bool> strokeOrder = [];
 
     public EditorViewModel(OtisWorkspace workspace, string projectPath, LoadedProject loaded)
@@ -209,13 +211,21 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
         this.SchedulePreview();
     }
 
-    public IReadOnlyList<NeighbourCutout> Neighbours() =>
-        this.CurrentPage is not { } page
-            ? []
-            : this.AllCutouts()
-                .Where(c => c.Key != this.SelectedGlyph && c.Value.Source == page.Source && c.Value.Page == page.Page)
-                .Select(c => new NeighbourCutout(c.Key, GlyphNames.Display(c.Key), c.Value))
-                .ToArray();
+    public IReadOnlyList<NeighbourCutout> Neighbours()
+    {
+        if (this.CurrentPage is not { } page)
+        {
+            return [];
+        }
+
+        var others = this.AllCutouts()
+            .Where(c => c.Key != this.SelectedGlyph && c.Value.Source == page.Source && c.Value.Page == page.Page)
+            .Select(c => new NeighbourCutout(c.Key, GlyphNames.Display(c.Key), c.Value));
+        var match = this.ShownMatch is { } shown && shown.Match.Source == page.Source && shown.Match.Page == page.Page
+            ? [new NeighbourCutout(string.Empty, "→ " + GlyphNames.Display(this.SelectedGlyph ?? string.Empty), shown.Match.ToCutout())]
+            : Array.Empty<NeighbourCutout>();
+        return others.Concat(match).ToArray();
+    }
 
     public void UpdateDraft(Cutout cutout)
     {
@@ -256,6 +266,10 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
         this.RequestedMode = CanvasMode.Edit;
         this.UpdateDraft(cutout);
         this.CutoutsChanged?.Invoke(this, new(false));
+        if (!keepLines)
+        {
+            _ = this.DetectLinesAsync();
+        }
     }
 
     public void SetLines(int? baseline, int? xLine)
@@ -490,6 +504,7 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
 
     public void Dispose()
     {
+        this.CancelSearch();
         this.previewDelay?.Cancel();
         this.previewDelay?.Dispose();
         this.PageImage?.Dispose();
@@ -675,12 +690,19 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
                     var ink = CutoutExtractor.Extract(page, cutout);
                     var applied = Images.OutlinePng(CutoutTracer.Trace(page, cutout), cutout);
                     var changed = adjusted.Adjustments == cutout.Adjustments ? applied : Images.OutlinePng(CutoutTracer.Trace(page, adjusted), adjusted);
+                    this.selectedQuality = QualityScore.Of(page, cutout);
                     return (Images.InkPng(ink.Mask, cutout.Baseline - ink.Top, cutout.XLine - ink.Top), applied, changed);
                 },
                 cancellationToken);
             if (!cancellationToken.IsCancellationRequested)
             {
                 this.Preview = await Images.FromPngAsync(inkPng);
+                if (this.selectedQuality is { } quality)
+                {
+                    this.SelectedQuality = Strings.Format("QualityFormat", quality.Score);
+                    this.SelectedQualityTooltip = QualityTexts.Describe(quality);
+                }
+
                 this.AppliedOutline = await Images.FromPngAsync(appliedPng);
                 this.AdjustedOutline = await Images.FromPngAsync(adjustedPng);
             }
@@ -703,14 +725,16 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
             var cutout = this.Project.Cutouts[glyph];
             try
             {
-                var png = await Task.Run(
+                var (png, quality) = await Task.Run(
                     async () =>
                     {
                         var page = await pages.PageAsync(cutout.Source, cutout.Page);
-                        return Images.InkPng(CutoutExtractor.Extract(page, cutout).Mask);
+                        return (Images.InkPng(CutoutExtractor.Extract(page, cutout).Mask), QualityScore.Of(page, cutout));
                     },
                     CancellationToken.None);
                 this.cells[glyph].Thumbnail = await Images.FromPngAsync(png);
+                this.cells[glyph].QualityText = quality.Score.ToString(System.Globalization.CultureInfo.CurrentCulture);
+                this.cells[glyph].Tooltip = $"{this.cells[glyph].Display}  ({glyph}){Environment.NewLine}{QualityTexts.Describe(quality)}";
             }
             catch (FileNotFoundException)
             {

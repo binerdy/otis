@@ -54,6 +54,7 @@
                                    Visibility="{x:Bind local:EditorView.Hidden(HasThumbnail), Mode=OneWay}" />
                         <TextBlock Text="●" FontSize="10" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4,0,0,2"
                                    Visibility="{x:Bind IsDirty, Mode=OneWay}" />
+                        <TextBlock Text="{x:Bind QualityText, Mode=OneWay}" FontSize="9" Foreground="#8A857D" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,4,2" />
                       </Grid>
                     </DataTemplate>
                   </GridView.ItemTemplate>
@@ -107,6 +108,40 @@
     <ScrollViewer Grid.Column="2" Background="{ThemeResource PanelBackgroundBrush}" BorderBrush="{ThemeResource PanelBorderBrush}" BorderThickness="1,0,0,0" Padding="12">
       <StackPanel Spacing="10">
         <TextBlock Text="{x:Bind ViewModel.SelectionTitle, Mode=OneWay}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap" />
+        <TextBlock Text="{x:Bind ViewModel.SelectedQuality, Mode=OneWay}" FontSize="12" Foreground="{ThemeResource SecondaryTextBrush}"
+                   ToolTipService.ToolTip="{x:Bind ViewModel.SelectedQualityTooltip, Mode=OneWay}" />
+        <StackPanel Orientation="Horizontal" Spacing="6" Visibility="{x:Bind ViewModel.CanAdjust, Mode=OneWay}">
+          <Button Content="{x:Bind services:Strings.Get('DetectLines')}" Command="{x:Bind ViewModel.DetectLinesCommand, Mode=OneWay}" />
+          <Button Style="{StaticResource AccentButtonStyle}" Content="{x:Bind services:Strings.Get('FindSimilar')}" Command="{x:Bind ViewModel.FindSimilarCommand, Mode=OneWay}" />
+        </StackPanel>
+        <StackPanel Spacing="6" Visibility="{x:Bind local:EditorView.Shown(ViewModel.SearchStatus), Mode=OneWay}">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <ProgressRing Width="16" Height="16" IsActive="{x:Bind ViewModel.IsSearching, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind ViewModel.SearchStatus, Mode=OneWay}" FontSize="12" VerticalAlignment="Center" />
+            <HyperlinkButton Content="{x:Bind services:Strings.Get('Cancel')}" Command="{x:Bind ViewModel.CancelSearchCommand, Mode=OneWay}"
+                             Visibility="{x:Bind ViewModel.IsSearching, Mode=OneWay}" Padding="4,0" />
+          </StackPanel>
+          <GridView ItemsSource="{x:Bind ViewModel.Matches, Mode=OneWay}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="OnMatchClicked"
+                    ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <GridView.ItemTemplate>
+              <DataTemplate x:DataType="vm:MatchViewModel">
+                <Grid Width="84" Height="112" CornerRadius="6" Background="White" BorderThickness="2"
+                      BorderBrush="{x:Bind local:EditorView.CellBorder(IsShown), Mode=OneWay}" ToolTipService.ToolTip="{x:Bind Tooltip}">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
+                  <Image Source="{x:Bind Thumbnail, Mode=OneWay}" Margin="4" Stretch="Uniform" />
+                  <TextBlock Grid.Row="1" Text="{x:Bind Label}" FontSize="10" Foreground="Black" HorizontalAlignment="Center" />
+                  <TextBlock Grid.Row="2" Text="{x:Bind QualityText}" FontSize="10" Foreground="#6E6A64" HorizontalAlignment="Center" Margin="0,0,0,3" />
+                </Grid>
+              </DataTemplate>
+            </GridView.ItemTemplate>
+          </GridView>
+          <Button Style="{StaticResource AccentButtonStyle}" Content="{x:Bind services:Strings.Get('UseMatch')}" Command="{x:Bind ViewModel.UseMatchCommand, Mode=OneWay}"
+                  IsEnabled="{x:Bind local:EditorView.Has(ViewModel.ShownMatch), Mode=OneWay}" />
+        </StackPanel>
         <Grid ColumnSpacing="8" Visibility="{x:Bind ViewModel.HasSelection, Mode=OneWay}">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

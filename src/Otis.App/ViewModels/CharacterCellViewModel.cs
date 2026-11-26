@@ -22,6 +22,9 @@ public sealed partial class CharacterCellViewModel(string glyph, Action<Characte
     public partial bool IsDirty { get; set; }
 
     [ObservableProperty]
+    public partial string QualityText { get; set; } = string.Empty;
+
+    [ObservableProperty]
     public partial bool IsSelected { get; set; }
 
     public bool HasThumbnail => this.Thumbnail is not null;

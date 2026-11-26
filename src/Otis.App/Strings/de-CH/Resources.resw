@@ -294,6 +294,45 @@
   <data name="PendingSwitchFormat" xml:space="preserve">
     <value>Die Anpassungen an {0} vor dem Wechsel übernehmen?</value>
   </data>
+  <data name="DetectLines" xml:space="preserve">
+    <value>Linien erkennen</value>
+  </data>
+  <data name="FindSimilar" xml:space="preserve">
+    <value>Ähnliche finden</value>
+  </data>
+  <data name="SearchProgressFormat" xml:space="preserve">
+    <value>Suche Seite {0} von {1} …</value>
+  </data>
+  <data name="MatchesFormat" xml:space="preserve">
+    <value>{0} Treffer. Anklicken zeigt ihn auf seiner Seite.</value>
+  </data>
+  <data name="NoMatches" xml:space="preserve">
+    <value>Keine ähnlichen Buchstaben gefunden.</value>
+  </data>
+  <data name="SearchCancelled" xml:space="preserve">
+    <value>Suche abgebrochen.</value>
+  </data>
+  <data name="UseMatch" xml:space="preserve">
+    <value>Diesen nehmen</value>
+  </data>
+  <data name="NoLinesFound" xml:space="preserve">
+    <value>Keine Textzeile um den Kasten gefunden. Linien bitte von Hand setzen.</value>
+  </data>
+  <data name="QualityFormat" xml:space="preserve">
+    <value>Qualität {0}</value>
+  </data>
+  <data name="Isolation" xml:space="preserve">
+    <value>freistehend</value>
+  </data>
+  <data name="Smoothness" xml:space="preserve">
+    <value>glatt</value>
+  </data>
+  <data name="Completeness" xml:space="preserve">
+    <value>vollständig</value>
+  </data>
+  <data name="Contrast" xml:space="preserve">
+    <value>Kontrast</value>
+  </data>
   <data name="SaveBeforeBuild" xml:space="preserve">
     <value>Einige Buchstaben haben ungespeicherte Änderungen. Vor dem Bauen speichern?</value>
   </data>

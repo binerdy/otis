@@ -25,7 +25,13 @@ public sealed partial class EditorView : UserControl
             this.ShowLines();
         };
         this.Canvas.BoxDrawn += (_, e) => this.ViewModel?.CreateFromBox(e.Value);
-        this.Canvas.NeighbourSelected += async (_, e) => await this.SelectAsync(e.Value);
+        this.Canvas.NeighbourSelected += async (_, e) =>
+        {
+            if (e.Value.Length > 0)
+            {
+                await this.SelectAsync(e.Value);
+            }
+        };
         this.Canvas.StrokeDrawn += (_, e) => this.ViewModel?.AddStroke(e.Value);
         this.Canvas.StrokeRemoved += (_, e) => this.ViewModel?.RemoveStroke(e.Value);
     }
@@ -51,6 +57,8 @@ public sealed partial class EditorView : UserControl
 
     public static bool Not(bool value) => !value;
 
+    public static bool Has(object? value) => value is not null;
+
     public static double Dimmed(bool enabled) => enabled ? 1 : 0.45;
 
     public static string[] SmoothingLevels() =>
@@ -67,6 +75,7 @@ public sealed partial class EditorView : UserControl
             old.CutoutsChanged -= view.OnCutoutsChanged;
             old.PropertyChanged -= view.OnViewModelPropertyChanged;
             old.StrokesChanged -= view.OnStrokesChanged;
+            old.ZoomRequested -= view.OnZoomRequested;
         }
 
         if (e.NewValue is EditorViewModel current)
@@ -75,6 +84,7 @@ public sealed partial class EditorView : UserControl
             current.CutoutsChanged += view.OnCutoutsChanged;
             current.PropertyChanged += view.OnViewModelPropertyChanged;
             current.StrokesChanged += view.OnStrokesChanged;
+            current.ZoomRequested += view.OnZoomRequested;
             view.Canvas.BrushWidth = (int)current.BrushWidth;
         }
 
@@ -82,6 +92,8 @@ public sealed partial class EditorView : UserControl
         view.Canvas.ShowCutouts(null, []);
         view.Canvas.ShowStrokes([]);
     }
+
+    private void OnZoomRequested(object? sender, CanvasEventArgs<Otis.Core.Projects.PixelRect> e) => this.Canvas.ZoomTo(e.Value);
 
     private void OnStrokesChanged(object? sender, EventArgs e) => this.Canvas.ShowStrokes(this.ViewModel?.PendingStrokes() ?? []);
 
@@ -136,6 +148,14 @@ public sealed partial class EditorView : UserControl
             this.ViewModel?.SetLines(
                 sender == this.BaselineBox ? (int)args.NewValue : null,
                 sender == this.XLineBox ? (int)args.NewValue : null);
+        }
+    }
+
+    private void OnMatchClicked(object sender, ItemClickEventArgs e)
+    {
+        if (e.ClickedItem is MatchViewModel match && this.ViewModel is not null)
+        {
+            match.Show();
         }
     }
 

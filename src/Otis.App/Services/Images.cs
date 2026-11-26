@@ -56,6 +56,22 @@ public static class Images
         return png.ToArray();
     }
 
+    public static RgbImage DecodeRgb(string png)
+    {
+        using var bitmap = SKBitmap.Decode(png);
+        return Otis.Infrastructure.Pages.Bitmaps.ToRgb(bitmap);
+    }
+
+    public static byte[] CropPng(RgbImage page, PixelRect box, int size = 96)
+    {
+        var area = page.Clip(box);
+        using var crop = Otis.Infrastructure.Pages.Bitmaps.ToBitmap(page.Crop(area));
+        var zoom = Math.Min(1f, Math.Min((float)size / crop.Width, (float)size / crop.Height));
+        using var scaled = crop.Resize(new SKImageInfo(Math.Max(1, (int)(crop.Width * zoom)), Math.Max(1, (int)(crop.Height * zoom))), new SKSamplingOptions(SKFilterMode.Linear));
+        using var png = scaled.Encode(SKEncodedImageFormat.Png, 100);
+        return png.ToArray();
+    }
+
     // The traced curves, filled as the font will draw them, at twice the scan resolution.
     public static byte[] OutlinePng(TracedCutout traced, Cutout cutout)
     {

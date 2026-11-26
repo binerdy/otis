@@ -294,6 +294,45 @@
   <data name="PendingSwitchFormat" xml:space="preserve">
     <value>Apply the adjustments to {0} before switching?</value>
   </data>
+  <data name="DetectLines" xml:space="preserve">
+    <value>Detect lines</value>
+  </data>
+  <data name="FindSimilar" xml:space="preserve">
+    <value>Find more like this</value>
+  </data>
+  <data name="SearchProgressFormat" xml:space="preserve">
+    <value>Searching page {0} of {1} …</value>
+  </data>
+  <data name="MatchesFormat" xml:space="preserve">
+    <value>{0} matches. Click one to see it on its page.</value>
+  </data>
+  <data name="NoMatches" xml:space="preserve">
+    <value>No similar letters found.</value>
+  </data>
+  <data name="SearchCancelled" xml:space="preserve">
+    <value>Search cancelled.</value>
+  </data>
+  <data name="UseMatch" xml:space="preserve">
+    <value>Use this</value>
+  </data>
+  <data name="NoLinesFound" xml:space="preserve">
+    <value>No text line found around the box. Set the lines by hand.</value>
+  </data>
+  <data name="QualityFormat" xml:space="preserve">
+    <value>Quality {0}</value>
+  </data>
+  <data name="Isolation" xml:space="preserve">
+    <value>free-standing</value>
+  </data>
+  <data name="Smoothness" xml:space="preserve">
+    <value>smooth</value>
+  </data>
+  <data name="Completeness" xml:space="preserve">
+    <value>whole</value>
+  </data>
+  <data name="Contrast" xml:space="preserve">
+    <value>contrast</value>
+  </data>
   <data name="SaveBeforeBuild" xml:space="preserve">
     <value>Some letters have unsaved changes. Save them before building?</value>
   </data>
