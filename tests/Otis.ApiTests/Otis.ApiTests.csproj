@@ -23,4 +23,5 @@
     <None Include="TestData\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <Import Project="$(MSBuildThisFileDirectory)..\..\build\Tessdata.targets" />
 </Project>

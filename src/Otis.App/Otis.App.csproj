@@ -39,4 +39,5 @@
     </ItemGroup>
     <Copy SourceFiles="@(_InterFont)" DestinationFiles="@(_InterFont->'$(PublishDir)Uno.Fonts.Inter\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
+  <Import Project="$(MSBuildThisFileDirectory)..\..\build\Tessdata.targets" />
 </Project>

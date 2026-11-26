@@ -1,0 +1,21 @@
+<Project>
+  <!-- The Fraktur model is 13 MB of data, so the build fetches it from a pinned commit instead of keeping it in git. -->
+  <PropertyGroup>
+    <TessdataCommit>e12c65a915945e4c28e237a9b52bc4a8f39a0cec</TessdataCommit>
+    <TessdataSha256>429b8c33d37e1a4823a2bb082a644ff13e252f735b7945e08a518d22ddcc459e</TessdataSha256>
+    <TessdataFolder>$(ArtifactsPath)/downloads</TessdataFolder>
+    <TessdataFileName>deu_latf-$(TessdataCommit).traineddata</TessdataFileName>
+    <TessdataFile>$(TessdataFolder)/$(TessdataFileName)</TessdataFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(TessdataFile)" Link="tessdata/deu_latf.traineddata" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Visible="false" />
+  </ItemGroup>
+
+  <Target Name="DownloadTessdata" BeforeTargets="AssignTargetPaths;_CopyOutOfDateSourceItemsToOutputDirectory" Condition="!Exists('$(TessdataFile)')">
+    <DownloadFile SourceUrl="https://github.com/tesseract-ocr/tessdata_best/raw/$(TessdataCommit)/deu_latf.traineddata"
+                  DestinationFolder="$(TessdataFolder)" DestinationFileName="$(TessdataFileName).part" Retries="3" />
+    <VerifyFileHash File="$(TessdataFile).part" Hash="$(TessdataSha256)" Algorithm="SHA256" />
+    <Move SourceFiles="$(TessdataFile).part" DestinationFiles="$(TessdataFile)" />
+  </Target>
+</Project>

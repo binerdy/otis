@@ -64,3 +64,22 @@ shown in its tooltip:
 #### Scenario: Whole beats broken
 - **WHEN** one stroke is complete and another is broken in two
 - **THEN** the complete one scores higher
+
+### Requirement: Initial pick
+"Pick letters automatically" SHALL read every page with Tesseract 5.5 (bundled through the TesseractOCR
+package with the `deu_latf` Fraktur model from tessdata_best) and fill every target character that is
+neither cut out nor derived. Pages are read at half the project resolution. Each recognised letter
+becomes a candidate: its box is widened by 15 % of its height but stops halfway to the neighbouring
+recognised letters, its guide lines are detected as for a new box, and its score is half the OCR
+confidence and half the quality score. The best candidate per character becomes an unsaved change for
+the user to review; nothing is saved until the user saves. A recognised long s (ſ) fills the `s.alt`
+building block. Reading runs in the background with progress and can be cancelled. A model placed in
+the `tessdata` folder of the Otis data folder is used instead of the bundled one.
+
+#### Scenario: Missing letters filled
+- **WHEN** a project has scans but only a few letters cut out, and the user starts the initial pick
+- **THEN** missing characters that Tesseract recognised with a confidence of at least 60 % appear as changed letters with boxes and guide lines
+
+#### Scenario: Existing letters stay
+- **WHEN** the letter `a` is already cut out
+- **THEN** the initial pick leaves it unchanged

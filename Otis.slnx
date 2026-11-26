@@ -6,6 +6,7 @@
     <File Path="Directory.Build.props" />
     <File Path="Directory.Build.targets" />
     <File Path="Directory.Packages.props" />
+    <File Path="build/Tessdata.targets" />
     <File Path="external.globalconfig" />
     <File Path="global.json" />
     <File Path="nuget.config" />
