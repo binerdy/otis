@@ -505,6 +505,7 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
     public void Dispose()
     {
         this.CancelSearch();
+        this.CancelReading();
         this.previewDelay?.Cancel();
         this.previewDelay?.Dispose();
         this.PageImage?.Dispose();

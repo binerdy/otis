@@ -354,4 +354,97 @@
   <data name="SaveBeforeBuild" xml:space="preserve">
     <value>Some letters have unsaved changes. Save them before building?</value>
   </data>
+  <data name="TypeWord" xml:space="preserve">
+    <value>Type a word</value>
+  </data>
+  <data name="TypeWordTitle" xml:space="preserve">
+    <value>Which word is in the box?</value>
+  </data>
+  <data name="TypeWordHint" xml:space="preserve">
+    <value>Type it exactly as written, with capitals, umlauts and ſ. Otis splits it into letters and keeps those that are still missing.</value>
+  </data>
+  <data name="Split" xml:space="preserve">
+    <value>Split</value>
+  </data>
+  <data name="WordAddedFormat" xml:space="preserve">
+    <value>New drafts: {0}. Check them, then save.</value>
+  </data>
+  <data name="WordSkippedFormat" xml:space="preserve">
+    <value>Already there: {0}.</value>
+  </data>
+  <data name="WordNothingNew" xml:space="preserve">
+    <value>Every letter of this word is already there.</value>
+  </data>
+  <data name="ReadWithClaude" xml:space="preserve">
+    <value>Read with Claude</value>
+  </data>
+  <data name="ReadThisPage" xml:space="preserve">
+    <value>This page</value>
+  </data>
+  <data name="ReadAllPages" xml:space="preserve">
+    <value>All pages</value>
+  </data>
+  <data name="ReadNoticeFormat" xml:space="preserve">
+    <value>Otis will send {0} to Anthropic, the company behind Claude, so Claude can read the words. It is processed on Anthropic's servers, which may be outside Europe, and billed to your API key. Nothing else from your project is sent. Continue?</value>
+  </data>
+  <data name="ReadNoticeThisPage" xml:space="preserve">
+    <value>an image of this page</value>
+  </data>
+  <data name="ReadNoticeAllPagesFormat" xml:space="preserve">
+    <value>images of all {0} pages</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="ReadingPageFormat" xml:space="preserve">
+    <value>Claude is reading page {0} of {1}…</value>
+  </data>
+  <data name="ReadAddedFormat" xml:space="preserve">
+    <value>Claude read {0} words. New drafts: {1}. Check them, then save.</value>
+  </data>
+  <data name="ReadNothingNewFormat" xml:space="preserve">
+    <value>Claude read {0} words but found no letter that is still missing.</value>
+  </data>
+  <data name="ReadingCancelled" xml:space="preserve">
+    <value>Reading cancelled.</value>
+  </data>
+  <data name="ApiKeyMissing" xml:space="preserve">
+    <value>Add your Anthropic API key in Settings on the start screen first.</value>
+  </data>
+  <data name="ReadProblemInvalidKey" xml:space="preserve">
+    <value>Anthropic does not accept the API key. Check it in Settings.</value>
+  </data>
+  <data name="ReadProblemNoAccess" xml:space="preserve">
+    <value>This API key may not use Claude Opus. Check your Anthropic account.</value>
+  </data>
+  <data name="ReadProblemTooManyRequests" xml:space="preserve">
+    <value>Too many requests or no credit left. Wait a minute or check your Anthropic account.</value>
+  </data>
+  <data name="ReadProblemServiceBusy" xml:space="preserve">
+    <value>Claude is busy right now. Try again in a few minutes.</value>
+  </data>
+  <data name="ReadProblemNoConnection" xml:space="preserve">
+    <value>No connection to Anthropic. Check the internet connection.</value>
+  </data>
+  <data name="ReadProblemDeclined" xml:space="preserve">
+    <value>Claude declined to read this page.</value>
+  </data>
+  <data name="ReadProblemUnreadable" xml:space="preserve">
+    <value>Claude's answer could not be understood. Try again.</value>
+  </data>
+  <data name="ReadProblemOther" xml:space="preserve">
+    <value>Reading failed: {0}</value>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>Anthropic API key (optional)</value>
+  </data>
+  <data name="ApiKeyHint" xml:space="preserve">
+    <value>Only needed for “Read with Claude”. Stored encrypted for your Windows account, never in project files.</value>
+  </data>
+  <data name="ApiKeySaved" xml:space="preserve">
+    <value>A key is saved. Type a new one to replace it.</value>
+  </data>
+  <data name="RemoveApiKey" xml:space="preserve">
+    <value>Remove the saved key</value>
+  </data>
 </root>

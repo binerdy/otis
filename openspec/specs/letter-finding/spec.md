@@ -103,7 +103,7 @@ listed as skipped. Spaces in the text split the box into words first, at the wid
 
 ### Requirement: Read with Claude
 With an Anthropic API key in Settings, "Read with Claude" SHALL send the current page, or all pages,
-to Claude (model `claude-opus-5-5`, structured JSON output, server-side refusal fallback) as up to three
+to Claude (model `claude-opus-5-5`, structured JSON output) as up to three
 overlapping horizontal strips scaled to at most 1568 pixels on the long side, and ask for every written
 word with its text and bounding box in strip pixels. Otis SHALL map the boxes back to the page, widen
 them slightly, split each word as in "Type a word", and offer the best example of every missing

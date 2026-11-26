@@ -17,6 +17,8 @@ public sealed class OtisWorkspace(TimeProvider time, PageCache pages, FontInstal
 
     public PageCache Pages { get; } = pages;
 
+    public ApiKeyStore ApiKeys { get; } = new(settings.Folder);
+
     public static OtisWorkspace CreateDefault(TimeProvider time)
     {
         var data = DataDirectory.Resolve();

@@ -6,6 +6,8 @@ namespace Otis.Infrastructure.Storage;
 
 public sealed partial class SettingsStore(string dataDirectory)
 {
+    public string Folder => dataDirectory;
+
     private string FilePath => Path.Combine(dataDirectory, "settings.json");
 
     public AppSettings Load()

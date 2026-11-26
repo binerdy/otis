@@ -5,6 +5,7 @@ public enum CanvasMode
 {
     Edit,
     DrawBox,
+    DrawWord,
     DrawErasure,
     DrawInk,
     DrawEraser,

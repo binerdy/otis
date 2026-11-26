@@ -4,6 +4,7 @@ using Otis.App.Controls;
 using Otis.App.Services;
 using Otis.App.ViewModels;
 using Otis.Core.Glyphs;
+using Otis.Core.Projects;
 using Otis.Infrastructure.Fonts;
 using Windows.System;
 
@@ -24,7 +25,7 @@ public sealed partial class EditorView : UserControl
             this.ViewModel?.UpdateDraft(e.Value);
             this.ShowLines();
         };
-        this.Canvas.BoxDrawn += (_, e) => this.ViewModel?.CreateFromBox(e.Value);
+        this.Canvas.BoxDrawn += this.OnBoxDrawn;
         this.Canvas.NeighbourSelected += async (_, e) =>
         {
             if (e.Value.Length > 0)
@@ -185,6 +186,9 @@ public sealed partial class EditorView : UserControl
             case VirtualKey.E:
                 vm.StartErasure();
                 break;
+            case VirtualKey.W:
+                vm.StartWord();
+                break;
             case VirtualKey.I:
                 vm.StartInkBrush();
                 break;
@@ -319,6 +323,76 @@ public sealed partial class EditorView : UserControl
         }
 
         vm.Select(glyph);
+    }
+
+    private async void OnBoxDrawn(object? sender, Controls.CanvasEventArgs<PixelRect> e)
+    {
+        if (this.ViewModel is not { } vm)
+        {
+            return;
+        }
+
+        if (vm.RequestedMode != CanvasMode.DrawWord)
+        {
+            vm.CreateFromBox(e.Value);
+            return;
+        }
+
+        var word = new TextBox { PlaceholderText = "Hand", FontSize = 18 };
+        var dialog = new ContentDialog
+        {
+            XamlRoot = this.XamlRoot,
+            Title = Strings.Get("TypeWordTitle"),
+            Content = new StackPanel
+            {
+                Spacing = 10,
+                Children = { new TextBlock { Text = Strings.Get("TypeWordHint"), TextWrapping = TextWrapping.Wrap }, word },
+            },
+            PrimaryButtonText = Strings.Get("Split"),
+            CloseButtonText = Strings.Get("Cancel"),
+            DefaultButton = ContentDialogButton.Primary,
+        };
+        dialog.Opened += (_, _) => word.Focus(FocusState.Programmatic);
+        var answer = await dialog.ShowAsync();
+        if (answer == ContentDialogResult.Primary && !string.IsNullOrWhiteSpace(word.Text))
+        {
+            await vm.TypeWordAsync(e.Value, word.Text);
+        }
+        else
+        {
+            vm.RequestedMode = CanvasMode.Edit;
+        }
+    }
+
+    private async void OnReadThisPageClicked(object sender, RoutedEventArgs e) => await this.ReadWithClaudeAsync(allPages: false);
+
+    private async void OnReadAllPagesClicked(object sender, RoutedEventArgs e) => await this.ReadWithClaudeAsync(allPages: true);
+
+    private async Task ReadWithClaudeAsync(bool allPages)
+    {
+        if (this.ViewModel is not { } vm)
+        {
+            return;
+        }
+
+        if (!vm.HasApiKey)
+        {
+            await this.ConfirmAsync(Strings.Get("ApiKeyMissing"), primary: null);
+            return;
+        }
+
+        if (!EditorViewModel.ReadingNoticeAccepted)
+        {
+            var what = allPages ? Strings.Format("ReadNoticeAllPagesFormat", vm.Pages.Count) : Strings.Get("ReadNoticeThisPage");
+            if (!await this.ConfirmAsync(Strings.Format("ReadNoticeFormat", what), Strings.Get("Send")))
+            {
+                return;
+            }
+
+            EditorViewModel.ReadingNoticeAccepted = true;
+        }
+
+        await vm.ReadWithClaudeAsync(allPages);
     }
 
     private async Task<bool> ConfirmAsync(string text, string? primary)

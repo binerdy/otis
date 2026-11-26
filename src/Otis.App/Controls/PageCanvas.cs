@@ -366,9 +366,9 @@ public sealed partial class PageCanvas : Grid
             this.drag = new Drag(DragKind.NewStroke, p, this.current);
             this.liveStroke = [new PixelPoint((int)Math.Round(p.X), (int)Math.Round(p.Y))];
         }
-        else if (this.Mode is CanvasMode.DrawBox or CanvasMode.DrawErasure)
+        else if (this.Mode is CanvasMode.DrawBox or CanvasMode.DrawWord or CanvasMode.DrawErasure)
         {
-            this.drag = new Drag(this.Mode == CanvasMode.DrawBox ? DragKind.NewBox : DragKind.NewErasure, p, this.current);
+            this.drag = new Drag(this.Mode is CanvasMode.DrawBox or CanvasMode.DrawWord ? DragKind.NewBox : DragKind.NewErasure, p, this.current);
         }
         else if (this.HitTest(p) is { } hit)
         {

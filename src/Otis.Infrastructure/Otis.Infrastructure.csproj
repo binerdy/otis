@@ -8,8 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Anthropic" />
     <PackageReference Include="PDFtoImage" />
     <PackageReference Include="SkiaSharp" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" />
     <PackageReference Include="TesseractOCR" />
     <PackageReference Include="Velopack" />
   </ItemGroup>

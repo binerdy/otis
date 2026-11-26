@@ -17,6 +17,8 @@ Otis includes or depends on the following third-party work. Package versions are
 | [Leptonica](http://www.leptonica.org) 1.87 | Image library used by Tesseract | BSD-2-Clause |
 | [TesseractOCR](https://github.com/Sicos1977/TesseractOCR) | .NET wrapper for Tesseract | Apache-2.0 |
 | [tessdata_best `deu_latf`](https://github.com/tesseract-ocr/tessdata_best) | German Fraktur model, downloaded at build time from a pinned commit | Apache-2.0 |
+| [Anthropic C# SDK](https://github.com/anthropics/anthropic-sdk-csharp) | Optional "Read with Claude" | Apache-2.0 |
+| [System.Security.Cryptography.ProtectedData](https://github.com/dotnet/runtime) | Encrypting the API key for the Windows user | MIT |
 | [Inter](https://rsms.me/inter/) (Uno.Fonts.Inter) | UI typeface | OFL-1.1 |
 | [Velopack](https://velopack.io) | Installer and updates | MIT |
 

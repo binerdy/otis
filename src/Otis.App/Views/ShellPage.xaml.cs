@@ -105,11 +105,19 @@ public sealed partial class ShellPage : Page
             SelectedIndex = (int)settings.Language,
         };
         var nightly = new ToggleSwitch { Header = Strings.Get("NightlyUpdates"), IsOn = settings.NightlyUpdates };
+        var keys = this.ViewModel.Services.Workspace.ApiKeys;
+        var key = new PasswordBox
+        {
+            Header = Strings.Get("ApiKey"),
+            PlaceholderText = keys.HasKey ? Strings.Get("ApiKeySaved") : "sk-ant-…",
+        };
+        var removeKey = new CheckBox { Content = Strings.Get("RemoveApiKey"), Visibility = keys.HasKey ? Visibility.Visible : Visibility.Collapsed };
+        var keyHint = new TextBlock { Text = Strings.Get("ApiKeyHint"), TextWrapping = TextWrapping.Wrap, FontSize = 12, Opacity = 0.7 };
         var dialog = new ContentDialog
         {
             XamlRoot = this.XamlRoot,
             Title = Strings.Get("Settings"),
-            Content = new StackPanel { Spacing = 16, Children = { languages, nightly } },
+            Content = new StackPanel { Spacing = 16, Children = { languages, nightly, new StackPanel { Spacing = 6, Children = { key, keyHint, removeKey } } } },
             PrimaryButtonText = Strings.Get("SaveSettings"),
             CloseButtonText = Strings.Get("Cancel"),
             DefaultButton = ContentDialogButton.Primary,
@@ -117,6 +125,14 @@ public sealed partial class ShellPage : Page
         if (await dialog.ShowAsync() == ContentDialogResult.Primary)
         {
             this.ViewModel.Services.SaveSettings(settings with { Language = (AppLanguage)languages.SelectedIndex, NightlyUpdates = nightly.IsOn });
+            if (!string.IsNullOrWhiteSpace(key.Password))
+            {
+                keys.Save(key.Password);
+            }
+            else if (removeKey.IsChecked == true)
+            {
+                keys.Remove();
+            }
         }
     }
 

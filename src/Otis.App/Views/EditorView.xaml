@@ -84,6 +84,18 @@
         <Button Content="{x:Bind services:Strings.Get('NewBox')}" Command="{x:Bind ViewModel.StartBoxCommand, Mode=OneWay}" ToolTipService.ToolTip="B" />
         <Button Content="{x:Bind services:Strings.Get('Erase')}" Command="{x:Bind ViewModel.StartErasureCommand, Mode=OneWay}" ToolTipService.ToolTip="E" />
         <AppBarSeparator />
+        <Button Content="{x:Bind services:Strings.Get('TypeWord')}" Command="{x:Bind ViewModel.StartWordCommand, Mode=OneWay}" ToolTipService.ToolTip="W" />
+        <DropDownButton Content="{x:Bind services:Strings.Get('ReadWithClaude')}" IsEnabled="{x:Bind local:EditorView.Not(ViewModel.IsReading), Mode=OneWay}">
+          <DropDownButton.Flyout>
+            <MenuFlyout>
+              <MenuFlyoutItem Text="{x:Bind services:Strings.Get('ReadThisPage')}" Click="OnReadThisPageClicked" />
+              <MenuFlyoutItem Text="{x:Bind services:Strings.Get('ReadAllPages')}" Click="OnReadAllPagesClicked" />
+            </MenuFlyout>
+          </DropDownButton.Flyout>
+        </DropDownButton>
+        <ProgressRing Width="16" Height="16" IsActive="{x:Bind ViewModel.IsReading, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsReading, Mode=OneWay}" />
+        <Button Content="{x:Bind services:Strings.Get('Cancel')}" Command="{x:Bind ViewModel.CancelReadingCommand, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsReading, Mode=OneWay}" />
+        <AppBarSeparator />
         <Button Style="{StaticResource AccentButtonStyle}" Content="{x:Bind services:Strings.Get('Save')}" Command="{x:Bind ViewModel.SaveCommand, Mode=OneWay}" ToolTipService.ToolTip="Ctrl+S" />
         <Button Content="{x:Bind services:Strings.Get('Revert')}" Command="{x:Bind ViewModel.RevertCommand, Mode=OneWay}" />
         <Button Content="{x:Bind services:Strings.Get('Remove')}" Click="OnRemoveClicked" />

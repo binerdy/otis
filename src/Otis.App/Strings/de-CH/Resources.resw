@@ -354,4 +354,97 @@
   <data name="SaveBeforeBuild" xml:space="preserve">
     <value>Einige Buchstaben haben ungespeicherte Änderungen. Vor dem Bauen speichern?</value>
   </data>
+  <data name="TypeWord" xml:space="preserve">
+    <value>Wort eintippen</value>
+  </data>
+  <data name="TypeWordTitle" xml:space="preserve">
+    <value>Welches Wort steht im Kasten?</value>
+  </data>
+  <data name="TypeWordHint" xml:space="preserve">
+    <value>Tippe es genau so ab, wie es geschrieben ist, mit Grossbuchstaben, Umlauten und ſ. Otis zerlegt es in Buchstaben und übernimmt die, die noch fehlen.</value>
+  </data>
+  <data name="Split" xml:space="preserve">
+    <value>Zerlegen</value>
+  </data>
+  <data name="WordAddedFormat" xml:space="preserve">
+    <value>Neue Entwürfe: {0}. Bitte prüfen und speichern.</value>
+  </data>
+  <data name="WordSkippedFormat" xml:space="preserve">
+    <value>Schon vorhanden: {0}.</value>
+  </data>
+  <data name="WordNothingNew" xml:space="preserve">
+    <value>Alle Buchstaben dieses Wortes sind schon vorhanden.</value>
+  </data>
+  <data name="ReadWithClaude" xml:space="preserve">
+    <value>Mit Claude lesen</value>
+  </data>
+  <data name="ReadThisPage" xml:space="preserve">
+    <value>Diese Seite</value>
+  </data>
+  <data name="ReadAllPages" xml:space="preserve">
+    <value>Alle Seiten</value>
+  </data>
+  <data name="ReadNoticeFormat" xml:space="preserve">
+    <value>Otis schickt {0} an Anthropic, die Firma hinter Claude, damit Claude die Wörter liest. Die Bilder werden auf Servern von Anthropic verarbeitet, möglicherweise ausserhalb Europas, und über deinen API-Schlüssel abgerechnet. Sonst wird nichts aus deinem Projekt verschickt. Weiter?</value>
+  </data>
+  <data name="ReadNoticeThisPage" xml:space="preserve">
+    <value>ein Bild dieser Seite</value>
+  </data>
+  <data name="ReadNoticeAllPagesFormat" xml:space="preserve">
+    <value>Bilder aller {0} Seiten</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Senden</value>
+  </data>
+  <data name="ReadingPageFormat" xml:space="preserve">
+    <value>Claude liest Seite {0} von {1} …</value>
+  </data>
+  <data name="ReadAddedFormat" xml:space="preserve">
+    <value>Claude hat {0} Wörter gelesen. Neue Entwürfe: {1}. Bitte prüfen und speichern.</value>
+  </data>
+  <data name="ReadNothingNewFormat" xml:space="preserve">
+    <value>Claude hat {0} Wörter gelesen, aber keinen Buchstaben gefunden, der noch fehlt.</value>
+  </data>
+  <data name="ReadingCancelled" xml:space="preserve">
+    <value>Lesen abgebrochen.</value>
+  </data>
+  <data name="ApiKeyMissing" xml:space="preserve">
+    <value>Hinterlege zuerst deinen Anthropic-API-Schlüssel in den Einstellungen auf dem Startbildschirm.</value>
+  </data>
+  <data name="ReadProblemInvalidKey" xml:space="preserve">
+    <value>Anthropic akzeptiert den API-Schlüssel nicht. Bitte in den Einstellungen prüfen.</value>
+  </data>
+  <data name="ReadProblemNoAccess" xml:space="preserve">
+    <value>Dieser API-Schlüssel darf Claude Opus nicht verwenden. Bitte das Anthropic-Konto prüfen.</value>
+  </data>
+  <data name="ReadProblemTooManyRequests" xml:space="preserve">
+    <value>Zu viele Anfragen oder kein Guthaben mehr. Kurz warten oder das Anthropic-Konto prüfen.</value>
+  </data>
+  <data name="ReadProblemServiceBusy" xml:space="preserve">
+    <value>Claude ist gerade ausgelastet. In ein paar Minuten nochmals versuchen.</value>
+  </data>
+  <data name="ReadProblemNoConnection" xml:space="preserve">
+    <value>Keine Verbindung zu Anthropic. Bitte die Internetverbindung prüfen.</value>
+  </data>
+  <data name="ReadProblemDeclined" xml:space="preserve">
+    <value>Claude hat das Lesen dieser Seite abgelehnt.</value>
+  </data>
+  <data name="ReadProblemUnreadable" xml:space="preserve">
+    <value>Die Antwort von Claude war unverständlich. Bitte nochmals versuchen.</value>
+  </data>
+  <data name="ReadProblemOther" xml:space="preserve">
+    <value>Lesen fehlgeschlagen: {0}</value>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>Anthropic-API-Schlüssel (optional)</value>
+  </data>
+  <data name="ApiKeyHint" xml:space="preserve">
+    <value>Nur für «Mit Claude lesen» nötig. Wird verschlüsselt für dein Windows-Konto gespeichert, nie in Projektdateien.</value>
+  </data>
+  <data name="ApiKeySaved" xml:space="preserve">
+    <value>Ein Schlüssel ist gespeichert. Zum Ersetzen einen neuen eintippen.</value>
+  </data>
+  <data name="RemoveApiKey" xml:space="preserve">
+    <value>Gespeicherten Schlüssel entfernen</value>
+  </data>
 </root>
