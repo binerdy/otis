@@ -12,7 +12,6 @@
     <PackageVersion Include="Anthropic" Version="13.14.0" />
     <PackageVersion Include="PDFtoImage" Version="5.4.0" />
     <PackageVersion Include="SkiaSharp" Version="4.157.0" />
-    <PackageVersion Include="TesseractOCR" Version="5.5.4" />
     <PackageVersion Include="SkiaSharp.Views.WinUI" Version="4.157.0" />
     <PackageVersion Include="System.Security.Cryptography.ProtectedData" Version="11.0.0" />
     <PackageVersion Include="Uno.Fonts.Inter" Version="2.10.1" />

@@ -13,10 +13,6 @@ Otis includes or depends on the following third-party work. Package versions are
 | [SkiaSharp](https://github.com/mono/SkiaSharp) | Images, page canvas, overlap removal | MIT |
 | [PDFtoImage](https://github.com/sungaila/PDFtoImage) | PDF page rendering | MIT |
 | [PDFium](https://pdfium.googlesource.com/pdfium/) (via bblanchon/pdfium-binaries) | PDF engine | BSD-3-Clause / Apache-2.0 |
-| [Tesseract](https://github.com/tesseract-ocr/tesseract) 5.5.4 | Recognising letters for the initial pick (native, via TesseractOCR) | Apache-2.0 |
-| [Leptonica](http://www.leptonica.org) 1.87 | Image library used by Tesseract | BSD-2-Clause |
-| [TesseractOCR](https://github.com/Sicos1977/TesseractOCR) | .NET wrapper for Tesseract | Apache-2.0 |
-| [tessdata_best `deu_latf`](https://github.com/tesseract-ocr/tessdata_best) | German Fraktur model, downloaded at build time from a pinned commit | Apache-2.0 |
 | [Anthropic C# SDK](https://github.com/anthropics/anthropic-sdk-csharp) | Optional "Read with Claude" | Apache-2.0 |
 | [System.Security.Cryptography.ProtectedData](https://github.com/dotnet/runtime) | Encrypting the API key for the Windows user | MIT |
 | [Inter](https://rsms.me/inter/) (Uno.Fonts.Inter) | UI typeface | OFL-1.1 |
