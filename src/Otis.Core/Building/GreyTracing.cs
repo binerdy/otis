@@ -45,7 +45,8 @@ public static class GreyTracing
         {
             for (var x = 0; x < result.Width; x++)
             {
-                var inside = big[(y * result.Width) + x] > 0 && allowed[x / scale, y / scale];
+                var erased = ink.Erased?[x / scale, y / scale] ?? false;
+                var inside = big[(y * result.Width) + x] > 0 && allowed[x / scale, y / scale] && !erased;
                 result[x, y] = inside || (strokes?[x, y] ?? false);
             }
         }

@@ -35,6 +35,8 @@ public sealed class BitGrid : IEquatable<BitGrid>
 
     public BitGrid And(BitGrid other) => this.Combine(other, static (a, b) => a && b);
 
+    public BitGrid AndNot(BitGrid other) => this.Combine(other, static (a, b) => a && !b);
+
     public bool Any() => Array.IndexOf(this.bits, true) >= 0;
 
     public (int Left, int Top, int Right, int Bottom)? Bounds()

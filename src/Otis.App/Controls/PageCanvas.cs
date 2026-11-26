@@ -17,6 +17,8 @@ public sealed partial class PageCanvas : Grid
     private SKImage? page;
     private Cutout? current;
     private IReadOnlyList<NeighbourCutout> neighbours = [];
+    private IReadOnlyList<InkStroke> strokes = [];
+    private List<PixelPoint>? liveStroke;
     private float scale = 0.2f;
     private float offsetX;
     private float offsetY;
@@ -48,7 +50,13 @@ public sealed partial class PageCanvas : Grid
 
     public event EventHandler<CanvasEventArgs<PixelRect>>? BoxDrawn;
 
+    public event EventHandler<CanvasEventArgs<InkStroke>>? StrokeDrawn;
+
+    public event EventHandler<CanvasEventArgs<int>>? StrokeRemoved;
+
     public CanvasMode Mode { get; set; }
+
+    public int BrushWidth { get; set; } = 8;
 
     public void ShowPage(SKImage? image)
     {
@@ -61,6 +69,12 @@ public sealed partial class PageCanvas : Grid
     {
         this.current = selected;
         this.neighbours = others;
+        this.canvas.Invalidate();
+    }
+
+    public void ShowStrokes(IReadOnlyList<InkStroke> pending)
+    {
+        this.strokes = pending;
         this.canvas.Invalidate();
     }
 
@@ -168,6 +182,36 @@ public sealed partial class PageCanvas : Grid
         _ => InputSystemCursorShape.Hand,
     };
 
+    private static void DrawStrokes(SKCanvas surface, IReadOnlyList<InkStroke> strokes, List<PixelPoint>? live, int liveWidth)
+    {
+        using var paint = new SKPaint
+        {
+            Color = new SKColor(30, 90, 220, 150),
+            Style = SKPaintStyle.Stroke,
+            StrokeCap = SKStrokeCap.Round,
+            StrokeJoin = SKStrokeJoin.Round,
+            IsAntialias = true,
+        };
+        foreach (var (width, points) in strokes.Select(s => (s.Width, s.Points)).Append((liveWidth, live ?? [])))
+        {
+            if (points.Count == 0)
+            {
+                continue;
+            }
+
+            paint.StrokeWidth = Math.Max(1, width);
+            using var builder = new SKPathBuilder();
+            builder.MoveTo(ToSk(points[0]));
+            foreach (var q in points.Skip(1).DefaultIfEmpty(points[0]))
+            {
+                builder.LineTo(ToSk(q));
+            }
+
+            using var path = builder.Detach();
+            surface.DrawPath(path, paint);
+        }
+    }
+
     private void FitCurrent()
     {
         if (this.current is not null)
@@ -219,6 +263,7 @@ public sealed partial class PageCanvas : Grid
             DrawCurrent(surface, this.current, unit);
         }
 
+        DrawStrokes(surface, this.strokes, this.liveStroke, this.BrushWidth);
         if (this.drag is { Kind: DragKind.NewBox or DragKind.NewErasure } d)
         {
             using var dashed = new SKPaint
@@ -308,7 +353,12 @@ public sealed partial class PageCanvas : Grid
             return;
         }
 
-        if (this.Mode is CanvasMode.DrawBox or CanvasMode.DrawErasure)
+        if (this.Mode == CanvasMode.DrawInk && this.current is not null)
+        {
+            this.drag = new Drag(DragKind.NewStroke, p, this.current);
+            this.liveStroke = [new PixelPoint((int)Math.Round(p.X), (int)Math.Round(p.Y))];
+        }
+        else if (this.Mode is CanvasMode.DrawBox or CanvasMode.DrawErasure)
         {
             this.drag = new Drag(this.Mode == CanvasMode.DrawBox ? DragKind.NewBox : DragKind.NewErasure, p, this.current);
         }
@@ -350,6 +400,18 @@ public sealed partial class PageCanvas : Grid
 
         var p = this.ToPage(position);
         d.Last = p;
+        if (d.Kind == DragKind.NewStroke && this.liveStroke is { } live)
+        {
+            var next = new PixelPoint((int)Math.Round(p.X), (int)Math.Round(p.Y));
+            if (Distance(ToSk(live[^1]), ToSk(next)) >= 2)
+            {
+                live.Add(next);
+                this.canvas.Invalidate();
+            }
+
+            return;
+        }
+
         if (d.Original is { } original && d.Kind is not (DragKind.NewBox or DragKind.NewErasure))
         {
             var dx = (int)Math.Round(p.X - d.Start.X);
@@ -370,6 +432,12 @@ public sealed partial class PageCanvas : Grid
 
     private void OnPointerReleased(object sender, PointerRoutedEventArgs e)
     {
+        if (this.drag is { Kind: DragKind.NewStroke } && this.liveStroke is { } live)
+        {
+            this.StrokeDrawn?.Invoke(this, new(new InkStroke(this.BrushWidth, live.ToArray())));
+            this.liveStroke = null;
+        }
+
         if (this.drag is { Kind: DragKind.NewBox or DragKind.NewErasure } d)
         {
             var box = new PixelRect(
@@ -444,6 +512,18 @@ public sealed partial class PageCanvas : Grid
 
     private void RemoveAt(SKPoint p)
     {
+        for (var i = this.strokes.Count - 1; i >= 0; i--)
+        {
+            var stroke = this.strokes[i];
+            var near = stroke.Points.Select((q, k) => SegmentDistance(p, ToSk(q), ToSk(stroke.Points[Math.Min(k + 1, stroke.Points.Count - 1)])))
+                .Any(distance => distance <= (stroke.Width / 2f) + (GrabDistance / this.scale));
+            if (near)
+            {
+                this.StrokeRemoved?.Invoke(this, new(i));
+                return;
+            }
+        }
+
         if (this.HitTest(p) is not { Original: { } c } hit)
         {
             return;

@@ -19,10 +19,18 @@ public static class CutoutExtractor
         var closing = Math.Clamp(cutout.Closing ?? DefaultClosing, 0, CutoutAdjustments.MaxCloseGaps);
         var mask = Morphology.Close(ink, closing).Or(ink)
             .And(PolygonMask.Fill(cutout.Outline, area.Left, area.Top, area.Width, area.Height));
+        var erased = new BitGrid(area.Width, area.Height);
         foreach (var erasure in cutout.Erasures)
         {
-            Erase(mask, erasure.Offset(-area.Left, -area.Top));
+            Fill(erased, erasure.Offset(-area.Left, -area.Top));
         }
+
+        if (cutout.EraseStrokes is { Count: > 0 } eraser)
+        {
+            erased = erased.Or(StrokePainter.Paint(eraser, area.Left, area.Top, area.Width, area.Height));
+        }
+
+        mask = mask.AndNot(erased);
 
         var polygon = PolygonMask.Fill(cutout.Outline, area.Left, area.Top, area.Width, area.Height);
         var strokes = cutout.InkStrokes is { Count: > 0 } painted
@@ -34,16 +42,16 @@ public static class CutoutExtractor
         }
 
         mask = ConnectedParts.KeepLarge(mask, cutout.MinimumPartShare ?? DefaultMinimumPartShare);
-        return new CutoutInk(mask, area.Left, area.Top) { Strokes = strokes };
+        return new CutoutInk(mask, area.Left, area.Top) { Strokes = strokes, Erased = erased };
     }
 
-    private static void Erase(BitGrid mask, PixelRect rect)
+    private static void Fill(BitGrid grid, PixelRect rect)
     {
-        for (var y = Math.Max(0, rect.Top); y < Math.Min(mask.Height, rect.Bottom); y++)
+        for (var y = Math.Max(0, rect.Top); y < Math.Min(grid.Height, rect.Bottom); y++)
         {
-            for (var x = Math.Max(0, rect.Left); x < Math.Min(mask.Width, rect.Right); x++)
+            for (var x = Math.Max(0, rect.Left); x < Math.Min(grid.Width, rect.Right); x++)
             {
-                mask[x, y] = false;
+                grid[x, y] = true;
             }
         }
     }

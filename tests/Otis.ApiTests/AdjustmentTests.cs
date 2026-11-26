@@ -71,7 +71,8 @@ public sealed class AdjustmentTests
     [Fact]
     public void AdjustmentsSurviveSaving()
     {
-        var adjustments = new CutoutAdjustments(GreyTracing: true, SmoothingLevel.Medium, CloseGaps: 4, [new InkStroke(5, [new(1, 2), new(3, 4)])]);
+        var adjustments = new CutoutAdjustments(
+            GreyTracing: true, SmoothingLevel.Medium, CloseGaps: 4, [new InkStroke(5, [new(1, 2), new(3, 4)])], [new InkStroke(9, [new(7, 8)])]);
         var project = OtisProject.Create("Kanzlei Fraktur")
             .WithCutout("a", Cutout.Rectangle("page.png", 1, new PixelRect(0, 0, 50, 50), 40, 20).WithAdjustments(adjustments));
 
@@ -79,6 +80,35 @@ public sealed class AdjustmentTests
 
         Assert.Equal(adjustments, ProjectJson.Read(json).Project.Cutouts["a"].Adjustments);
         Assert.Contains("\"smoothing\": \"Medium\"", json, StringComparison.Ordinal);
+        Assert.Contains("\"eraseStrokes\"", json, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void EraserRemovesTheNeighboursTip()
+    {
+        using var page = new TestPage();
+        page.Rect(100, 150, 140, 300).Rect(165, 160, 185, 200);
+        var cutout = Cutout.Rectangle("page.png", 1, new PixelRect(90, 140, 200, 310), 300, 200);
+        var eraser = new InkStroke(28, [new(175, 156), new(175, 204)]);
+
+        var before = CutoutExtractor.Extract(page.ToImage(), cutout);
+        var after = CutoutExtractor.Extract(page.ToImage(), cutout.WithAdjustments(CutoutAdjustments.None with { EraseStrokes = [eraser] }));
+
+        Assert.Equal(2, Parts(before));
+        Assert.Equal(1, Parts(after));
+    }
+
+    [Fact]
+    public void GreyTracingKeepsErasedAreasEmpty()
+    {
+        using var page = new TestPage();
+        page.Rect(100, 150, 140, 300).Rect(141, 200, 200, 210);
+        var cutout = Cutout.Rectangle("page.png", 1, new PixelRect(90, 140, 210, 310), 300, 200)
+            .WithAdjustments(CutoutAdjustments.None with { GreyTracing = true, EraseStrokes = [new InkStroke(14, [new(150, 205), new(205, 205)])] });
+
+        var traced = CutoutTracer.Trace(page.ToImage(), cutout);
+
+        Assert.InRange(Width(traced), 40, 52);
     }
 
     [Fact]

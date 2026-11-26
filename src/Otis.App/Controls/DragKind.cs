@@ -11,4 +11,5 @@ internal enum DragKind
     Whole,
     NewBox,
     NewErasure,
+    NewStroke,
 }

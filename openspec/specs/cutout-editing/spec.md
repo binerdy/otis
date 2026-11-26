@@ -72,8 +72,9 @@ The right pane SHALL offer three adjustments for the selected letter, each with 
 returns it to the last applied state:
 - **Trace from grey scan** (on/off, see outline-tracing);
 - **Smoothing** (Off, Light, Medium, Strong);
-- **Repair**: "Close gaps" (0–6) and an ink brush (key I) with a width, "Undo last stroke", and
-  right-click on a stroke to remove it.
+- **Repair**: "Close gaps" (0–6), an ink brush (key I) and an eraser brush (key R) with an
+  adjustable width, "Undo last stroke" for the most recent stroke of either brush, and right-click on
+  a stroke to remove it.
 
 Adjustments stay pending until **Apply**, which puts them into the letter like any other change
 (then saved with Save). **Discard** drops all pending adjustments. Moving or reshaping the box keeps

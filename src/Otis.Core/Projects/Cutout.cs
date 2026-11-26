@@ -30,6 +30,8 @@ public sealed record Cutout
 
     public IReadOnlyList<InkStroke>? InkStrokes { get; init; }
 
+    public IReadOnlyList<InkStroke>? EraseStrokes { get; init; }
+
     [JsonExtensionData]
     public Dictionary<string, JsonElement>? Unknown { get; init; }
 
@@ -41,7 +43,8 @@ public sealed record Cutout
         this.GreyTracing ?? false,
         this.Smoothing ?? SmoothingLevel.Off,
         this.Closing ?? CutoutAdjustments.DefaultCloseGaps,
-        this.InkStrokes ?? []);
+        this.InkStrokes ?? [],
+        this.EraseStrokes ?? []);
 
     public static Cutout Rectangle(string source, int page, PixelRect box, int baseline, int xLine) => new()
     {
@@ -59,6 +62,7 @@ public sealed record Cutout
         Baseline = this.Baseline + dy,
         XLine = this.XLine + dy,
         InkStrokes = this.InkStrokes is null ? null : [.. this.InkStrokes.Select(s => s.Offset(dx, dy))],
+        EraseStrokes = this.EraseStrokes is null ? null : [.. this.EraseStrokes.Select(s => s.Offset(dx, dy))],
     };
 
     // Defaults are stored as absent fields, so letters without adjustments keep their exact file content.
@@ -68,5 +72,6 @@ public sealed record Cutout
         Smoothing = adjustments.Smoothing == SmoothingLevel.Off ? null : adjustments.Smoothing,
         Closing = adjustments.CloseGaps == CutoutAdjustments.DefaultCloseGaps ? null : adjustments.CloseGaps,
         InkStrokes = adjustments.InkStrokes.Count == 0 ? null : adjustments.InkStrokes,
+        EraseStrokes = adjustments.EraseStrokes.Count == 0 ? null : adjustments.EraseStrokes,
     };
 }

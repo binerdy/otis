@@ -55,6 +55,16 @@ before connected parts are evaluated, so that a repaired piece is never dropped 
 - **WHEN** a flourish is broken and the user paints a stroke across the break
 - **THEN** both halves and the stroke form one part
 
+### Requirement: Eraser strokes
+Each cutout MAY carry eraser strokes: polylines with a width in page pixels that remove ink, for
+small pieces of a neighbouring letter that a rectangle cannot reach. Eraser strokes SHALL be applied
+together with the rectangle erasures, before ink strokes are added. Erased areas SHALL also stay
+empty when tracing from the grey scan.
+
+#### Scenario: Neighbour's tip removed
+- **WHEN** the tip of the next letter's flourish reaches into the cutout and the user paints over it with the eraser
+- **THEN** that tip is not part of the letter, in the preview and in the font
+
 ### Requirement: Specks are dropped
 After erasing, connected ink parts (8-neighbourhood) smaller than 6 % of the largest part SHALL be
 dropped; the threshold is overridable per cutout. Separate parts above it, such as the dot of an

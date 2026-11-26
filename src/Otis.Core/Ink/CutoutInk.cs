@@ -6,4 +6,6 @@ namespace Otis.Core.Ink;
 public sealed record CutoutInk(BitGrid Mask, int Left, int Top)
 {
     public BitGrid? Strokes { get; init; }
+
+    public BitGrid? Erased { get; init; }
 }
