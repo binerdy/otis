@@ -1,0 +1,5 @@
+is_global = true
+global_level = 100
+
+# WindowsAppSDK injects UndockedRegFreeWinRT-AutoInitializer.cs from the NuGet cache; it cannot be edited here.
+dotnet_diagnostic.CA5392.severity = none

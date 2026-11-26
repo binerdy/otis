@@ -1,0 +1,7 @@
+<Project>
+  <Target Name="InitializeSourceControlInformation" BeforeTargets="AddSourceRevisionToInformationalVersion" Condition="'$(SourceRevisionId)' == ''">
+    <Exec Command="git describe --always --dirty=*" ConsoleToMSBuild="True" IgnoreExitCode="True" StandardOutputImportance="low">
+      <Output PropertyName="SourceRevisionId" TaskParameter="ConsoleOutput" />
+    </Exec>
+  </Target>
+</Project>

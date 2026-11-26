@@ -1,0 +1,96 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.sln]
+indent_style = tab
+
+[*.{csproj,json,md,props,targets}]
+indent_size = 2
+insert_final_newline = false
+
+[*.DotSettings]
+end_of_line = lf
+insert_final_newline = false
+
+[*.cs]
+charset = utf-8-bom
+
+csharp_using_directive_placement = outside_namespace
+csharp_prefer_simple_default_expression = true
+csharp_style_expression_bodied_methods = when_on_single_line
+csharp_style_var_elsewhere = true
+csharp_style_var_elsewhere.severity = suggestion
+csharp_style_var_for_built_in_types = true
+csharp_style_var_for_built_in_types.severity = suggestion
+csharp_style_var_when_type_is_apparent = true
+csharp_style_var_when_type_is_apparent.severity = true
+
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_style_expression_bodied_constructors = when_on_single_line:silent
+csharp_style_expression_bodied_methods = when_on_single_line:silent
+csharp_style_expression_bodied_operators = when_on_single_line:silent
+csharp_style_expression_bodied_properties = true:silent
+csharp_style_expression_bodied_accessors = true:silent
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = true:silent
+csharp_style_prefer_primary_constructors = true:silent
+
+dotnet_code_quality.api_surface = public, internal, private
+dotnet_code_quality.CA1859.api_surface = private, internal
+dotnet_code_quality.CA1002.api_surface = public
+
+dotnet_analyzer_diagnostic.severity = warning
+
+dotnet_diagnostic.CA1062.severity = none
+dotnet_diagnostic.CA1515.severity = none
+dotnet_diagnostic.CA2007.severity = none
+
+dotnet_diagnostic.IDE0003.severity = none
+dotnet_diagnostic.IDE0010.severity = none
+dotnet_diagnostic.IDE0046.severity = none
+dotnet_diagnostic.IDE0045.severity = none
+dotnet_diagnostic.IDE0072.severity = none
+dotnet_diagnostic.IDE0160.severity = none
+dotnet_diagnostic.IDE0290.severity = none
+dotnet_diagnostic.IDE0305.severity = none
+dotnet_diagnostic.IDE0009.severity = warning
+dotnet_diagnostic.IDE0058.severity = none
+dotnet_diagnostic.IDE0065.severity = warning
+
+dotnet_diagnostic.SA1412.severity = warning
+dotnet_diagnostic.SA1413.severity = none
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1601.severity = none
+dotnet_diagnostic.SA1602.severity = none
+dotnet_diagnostic.SA1633.severity = none
+dotnet_diagnostic.SA1101.severity = none
+dotnet_diagnostic.SA1000.severity = none
+
+dotnet_style_qualification_for_event = true
+dotnet_style_qualification_for_field = true
+dotnet_style_qualification_for_method = true
+dotnet_style_qualification_for_property = true
+
+[*.{xaml,xml,slnx,resw,appxmanifest,manifest}]
+indent_size = 2
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[*.g.cs]
+generated_code = true
+
+# The XAML compiler emits new Uri(string) for ms-appx resources; generated files cannot be changed.
+[*.g.i.cs]
+dotnet_diagnostic.RS0030.severity = none
+
+[src/Otis.App/**.cs]
+# CommunityToolkit.Mvvm generates camelCase backing fields next to PascalCase commands.
+dotnet_diagnostic.CA1708.severity = none

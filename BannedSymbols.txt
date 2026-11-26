@@ -1,0 +1,31 @@
+# Shared banned-API list; keep it in sync with the upstream baseline by hand.
+
+# Syntax: PREFIX:Fully.Qualified.Symbol;Message
+# Prefixes: T = type, M = method, P = property, F = field
+# Lines starting with # are comments and are ignored by the analyzer.
+
+# ---- Collections ----
+M:System.Collections.Generic.List`1.ForEach(System.Action{`0}); This method allows dangerous, undetected behaviour: when passing an awaitable function (eg Func<Task>) it will implicitly upcast it into an Action. -> you can forget to await it. Neither the compiler nor an analyzer will catch that. Use the foreach keyword for side effects or more specific linq functions for pure code.
+
+# ---- Uri ----
+M:System.Uri.#ctor(System.String); Use the ctor which receives a UriKind. When we use the banned ctor and pass it a relative path, windows will complain. (https://github.com/dotnet/runtime/issues/69308)
+
+# ---- Date & Time ----
+# Always use TimeProvider so that time can be controlled in tests and is always UTC-based.
+# Convert to local time only at the UI boundary (frontend).
+P:System.DateTime.Now;Use this.timeProvider.GetUtcNow() instead, and use DateTimeOffset.ToLocalTime in the frontend.
+P:System.DateTime.UtcNow;Use this.timeProvider.GetUtcNow() instead, and use DateTimeOffset.ToLocalTime in the frontend.
+P:System.DateTimeOffset.Now;Use this.timeProvider.GetUtcNow() instead, and use DateTimeOffset.ToLocalTime in the frontend.
+P:System.DateTimeOffset.UtcNow;Use this.timeProvider.GetUtcNow() instead, and use DateTimeOffset.ToLocalTime in the frontend.
+M:System.TimeProvider.GetLocalNow;Use this.timeProvider.GetUtcNow() instead, and use DateTimeOffset.ToLocalTime in the frontend.
+T:System.DateTime;Use DateTimeOffset instead
+
+# ---- Blocking on async (sync-over-async) ----
+# Blocking a thread on a task risks deadlocks and thread-pool starvation and wraps failures in
+# AggregateException. Await the task instead. After Task.WhenAll, use the results array WhenAll
+# returns (or await the already-completed tasks). '.GetAwaiter().GetResult()' is covered by an
+# architecture test (LanguageAntipatternTests), because banning GetAwaiter here would be ambiguous.
+P:System.Threading.Tasks.Task`1.Result;Await the task instead of blocking on it. After Task.WhenAll, use the results array it returns.
+M:System.Threading.Tasks.Task.Wait;Await the task instead of blocking on it.
+M:System.Threading.Tasks.Task.WaitAll;Use await Task.WhenAll(...) instead of blocking.
+M:System.Threading.Tasks.Task.WaitAny;Use await Task.WhenAny(...) instead of blocking.

@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Require a new version for releases
+        if: github.event_name == 'pull_request' && github.base_ref == 'main'
+        shell: pwsh
+        run: |
+          $v = ./.github/scripts/Get-OtisVersion.ps1
+          if ($v.Released) { throw "$($v.Tag) is already released. Bump <Version> in Directory.Build.props on develop before merging into main." }
+          "Merging releases $($v.Tag)."
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Build
+        run: dotnet build Otis.slnx -c Release
+
+      - name: Test
+        run: dotnet test --solution Otis.slnx -c Release --no-build

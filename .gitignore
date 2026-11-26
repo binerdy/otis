@@ -1,0 +1,12 @@
+bin/
+obj/
+.artifacts/
+*.user
+*.rsuser
+*.suo
+/.idea
+/.vs
+/.vscode/*
+!/.vscode/extensions.json
+TestResults/
+Releases/

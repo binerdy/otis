@@ -1,0 +1,73 @@
+name: Nightly
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+jobs:
+  nightly:
+    runs-on: windows-latest
+    env:
+      PACK_ID: Otis
+      MAIN_EXE: Otis.App.exe
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Skip when develop has not changed in 24 h
+        id: changes
+        shell: pwsh
+        run: |
+          $since = (Get-Date).ToUniversalTime().AddHours(-24).ToString("o")
+          $count = git rev-list --count --since=$since HEAD
+          "changed=$([int]$count -gt 0 -or '${{ github.event_name }}' -eq 'workflow_dispatch')" >> $env:GITHUB_OUTPUT
+
+      - uses: actions/setup-dotnet@v6
+        if: steps.changes.outputs.changed == 'True'
+        with:
+          global-json-file: global.json
+
+      - name: Compute version
+        if: steps.changes.outputs.changed == 'True'
+        id: version
+        shell: pwsh
+        run: |
+          $v = ./.github/scripts/Get-OtisVersion.ps1
+          if ($v.Released) { throw "$($v.Tag) is already released; nightlies would sort below it. Bump <Version> in Directory.Build.props on develop." }
+          "version=$($v.Version)-nightly.${{ github.run_number }}" >> $env:GITHUB_OUTPUT
+
+      - name: Test
+        if: steps.changes.outputs.changed == 'True'
+        run: dotnet test --solution Otis.slnx -c Release
+
+      - name: Publish
+        if: steps.changes.outputs.changed == 'True'
+        run: >
+          dotnet publish src/Otis.App/Otis.App.csproj -c Release
+          -f net11.0-windows10.0.26100 -p:Platform=x64 -p:PublishProfile=win-x64
+          -p:Version=${{ steps.version.outputs.version }}
+          -o publish
+
+      - name: Pack and release with Velopack
+        if: steps.changes.outputs.changed == 'True'
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $repo = "${{ github.server_url }}/${{ github.repository }}"
+          $version = "${{ steps.version.outputs.version }}"
+          dotnet tool install -g vpk --version 1.2.161
+          vpk download github --repoUrl $repo --token $env:GITHUB_TOKEN --pre
+          vpk pack --packId $env:PACK_ID --packVersion $version --packDir publish --mainExe $env:MAIN_EXE --packTitle Otis --icon src/Otis.App/Assets/Icons/otis.ico
+          vpk upload github --repoUrl $repo --token $env:GITHUB_TOKEN --publish --pre `
+            --releaseName "Otis $version" --tag "v$version" --targetCommitish "${{ github.sha }}"

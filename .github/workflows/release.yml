@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+    env:
+      PACK_ID: Otis
+      MAIN_EXE: Otis.App.exe
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Read version from Directory.Build.props
+        id: version
+        shell: pwsh
+        run: |
+          $v = ./.github/scripts/Get-OtisVersion.ps1
+          if ($v.Released) { "::notice::$($v.Tag) already exists; nothing to release." }
+          else { "Releasing $($v.Tag)." }
+
+      - uses: actions/setup-dotnet@v6
+        if: steps.version.outputs.released == 'false'
+        with:
+          global-json-file: global.json
+
+      - name: Test
+        if: steps.version.outputs.released == 'false'
+        run: dotnet test --solution Otis.slnx -c Release
+
+      - name: Publish
+        if: steps.version.outputs.released == 'false'
+        run: >
+          dotnet publish src/Otis.App/Otis.App.csproj -c Release
+          -f net11.0-windows10.0.26100 -p:Platform=x64 -p:PublishProfile=win-x64
+          -o publish
+
+      - name: Import signing certificate
+        if: steps.version.outputs.released == 'false'
+        id: signing
+        shell: pwsh
+        env:
+          SIGNING_CERTIFICATE: ${{ secrets.SIGNING_CERTIFICATE }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        run: |
+          if ([string]::IsNullOrEmpty($env:SIGNING_CERTIFICATE)) {
+            Write-Warning "SIGNING_CERTIFICATE is not set; the release will be unsigned."
+            "params=" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+          $path = Join-Path $env:RUNNER_TEMP "signing.pfx"
+          [IO.File]::WriteAllBytes($path, [Convert]::FromBase64String($env:SIGNING_CERTIFICATE))
+          "params=/f `"$path`" /p `"$env:SIGNING_PASSWORD`" /fd sha256 /tr http://timestamp.digicert.com /td sha256" >> $env:GITHUB_OUTPUT
+
+      - name: Pack and release with Velopack
+        if: steps.version.outputs.released == 'false'
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SIGN_PARAMS: ${{ steps.signing.outputs.params }}
+        run: |
+          $repo = "${{ github.server_url }}/${{ github.repository }}"
+          $version = "${{ steps.version.outputs.version }}"
+          dotnet tool install -g vpk --version 1.2.161
+          vpk download github --repoUrl $repo --token $env:GITHUB_TOKEN
+          $sign = @()
+          if ($env:SIGN_PARAMS) { $sign = @("--signParams", $env:SIGN_PARAMS) }
+          vpk pack --packId $env:PACK_ID --packVersion $version --packDir publish --mainExe $env:MAIN_EXE --packTitle Otis --icon src/Otis.App/Assets/Icons/otis.ico @sign
+          vpk upload github --repoUrl $repo --token $env:GITHUB_TOKEN --publish `
+            --releaseName "Otis $version" --tag "${{ steps.version.outputs.tag }}" --targetCommitish "${{ github.sha }}"

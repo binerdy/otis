@@ -1,0 +1,32 @@
+<Solution>
+  <Folder Name="/SolutionItems/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="external.globalconfig" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+    <File Path="THIRD-PARTY-NOTICES.md" />
+    <File Path="renovate.json" />
+  </Folder>
+  <Folder Name="/.github/">
+    <File Path=".github/workflows/ci.yml" />
+    <File Path=".github/workflows/nightly.yml" />
+    <File Path=".github/workflows/release.yml" />
+  </Folder>
+  <Folder Name="/openspec/">
+    <File Path="openspec/project.md" />
+    <File Path="openspec/specs/app-settings/spec.md" />
+    <File Path="openspec/specs/cutout-editing/spec.md" />
+    <File Path="openspec/specs/font-building/spec.md" />
+    <File Path="openspec/specs/font-installation/spec.md" />
+    <File Path="openspec/specs/ink-extraction/spec.md" />
+    <File Path="openspec/specs/outline-tracing/spec.md" />
+    <File Path="openspec/specs/project-files/spec.md" />
+    <File Path="openspec/specs/release-pipeline/spec.md" />
+    <File Path="openspec/specs/source-pages/spec.md" />
+  </Folder>
+</Solution>
