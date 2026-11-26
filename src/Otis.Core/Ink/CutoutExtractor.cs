@@ -16,15 +16,25 @@ public static class CutoutExtractor
         var area = page.Clip(new PixelRect(bounds.Left - Margin, bounds.Top - Margin, bounds.Right + Margin, bounds.Bottom + Margin));
         var ink = InkDetector.Detect(page.Crop(area));
 
-        var mask = Morphology.Close(ink, cutout.Closing ?? DefaultClosing).Or(ink)
+        var closing = Math.Clamp(cutout.Closing ?? DefaultClosing, 0, CutoutAdjustments.MaxCloseGaps);
+        var mask = Morphology.Close(ink, closing).Or(ink)
             .And(PolygonMask.Fill(cutout.Outline, area.Left, area.Top, area.Width, area.Height));
         foreach (var erasure in cutout.Erasures)
         {
             Erase(mask, erasure.Offset(-area.Left, -area.Top));
         }
 
+        var polygon = PolygonMask.Fill(cutout.Outline, area.Left, area.Top, area.Width, area.Height);
+        var strokes = cutout.InkStrokes is { Count: > 0 } painted
+            ? StrokePainter.Paint(painted, area.Left, area.Top, area.Width, area.Height).And(polygon)
+            : null;
+        if (strokes is not null)
+        {
+            mask = mask.Or(strokes);
+        }
+
         mask = ConnectedParts.KeepLarge(mask, cutout.MinimumPartShare ?? DefaultMinimumPartShare);
-        return new CutoutInk(mask, area.Left, area.Top);
+        return new CutoutInk(mask, area.Left, area.Top) { Strokes = strokes };
     }
 
     private static void Erase(BitGrid mask, PixelRect rect)

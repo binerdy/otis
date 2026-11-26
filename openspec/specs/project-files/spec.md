@@ -54,8 +54,10 @@ systems.
 
 ### Requirement: Cutout record
 A cutout SHALL store the source, the page number (1-based), the outline polygon as integer page
-pixels, the erasures as integer rectangles, the baseline and x-line as page rows, and the optional
-extraction overrides (gap closing, minimum speck size). All coordinates SHALL refer to the page
+pixels, the erasures as integer rectangles, the baseline and x-line as page rows, the optional
+extraction overrides (gap closing, minimum speck size), and the optional adjustments (grey tracing,
+smoothing level, ink strokes as width plus page-pixel points). Adjustments are optional fields, so
+projects without them keep their format version and older Otis versions preserve them unread. All coordinates SHALL refer to the page
 rendered at the project's resolution (default 400 dpi).
 
 #### Scenario: Rectangle cutout

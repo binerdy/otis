@@ -24,11 +24,24 @@ public sealed record Cutout
 
     public int? RightSidebearing { get; init; }
 
+    public bool? GreyTracing { get; init; }
+
+    public SmoothingLevel? Smoothing { get; init; }
+
+    public IReadOnlyList<InkStroke>? InkStrokes { get; init; }
+
     [JsonExtensionData]
     public Dictionary<string, JsonElement>? Unknown { get; init; }
 
     [JsonIgnore]
     public PixelRect Bounds => PixelRect.Around(this.Outline);
+
+    [JsonIgnore]
+    public CutoutAdjustments Adjustments => new(
+        this.GreyTracing ?? false,
+        this.Smoothing ?? SmoothingLevel.Off,
+        this.Closing ?? CutoutAdjustments.DefaultCloseGaps,
+        this.InkStrokes ?? []);
 
     public static Cutout Rectangle(string source, int page, PixelRect box, int baseline, int xLine) => new()
     {
@@ -45,5 +58,15 @@ public sealed record Cutout
         Erasures = [.. this.Erasures.Select(e => e.Offset(dx, dy))],
         Baseline = this.Baseline + dy,
         XLine = this.XLine + dy,
+        InkStrokes = this.InkStrokes is null ? null : [.. this.InkStrokes.Select(s => s.Offset(dx, dy))],
+    };
+
+    // Defaults are stored as absent fields, so letters without adjustments keep their exact file content.
+    public Cutout WithAdjustments(CutoutAdjustments adjustments) => this with
+    {
+        GreyTracing = adjustments.GreyTracing ? true : null,
+        Smoothing = adjustments.Smoothing == SmoothingLevel.Off ? null : adjustments.Smoothing,
+        Closing = adjustments.CloseGaps == CutoutAdjustments.DefaultCloseGaps ? null : adjustments.CloseGaps,
+        InkStrokes = adjustments.InkStrokes.Count == 0 ? null : adjustments.InkStrokes,
     };
 }

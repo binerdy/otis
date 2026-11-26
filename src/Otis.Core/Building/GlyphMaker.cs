@@ -1,7 +1,6 @@
 ﻿// SPDX-License-Identifier: GPL-3.0-or-later
 using Otis.Core.Glyphs;
 using Otis.Core.Imaging;
-using Otis.Core.Ink;
 using Otis.Core.Outlines;
 using Otis.Core.Projects;
 using Otis.Core.Tracing;
@@ -11,18 +10,11 @@ namespace Otis.Core.Building;
 public static class GlyphMaker
 {
     private const double BodyOpeningShare = 0.07;
-    private const int SpeckPixels = 40;
-
-    private static readonly TraceOptions Tracing = new()
-    {
-        TurdSize = SpeckPixels * TracePreparation.Upsampling * TracePreparation.Upsampling,
-        AlphaMax = 1.0,
-        OptimizeTolerance = 0.25,
-    };
 
     public static PlacedGlyph Make(string name, RgbImage page, Cutout cutout, FontSettings font)
     {
-        var ink = CutoutExtractor.Extract(page, cutout);
+        var traced = CutoutTracer.Trace(page, cutout);
+        var ink = traced.Ink;
         var xHeightPixels = Math.Max(1, cutout.Baseline - cutout.XLine);
         var scale = (double)font.XHeight / xHeightPixels;
         var (bodyLeft, bodyRight) = BodyColumns(ink.Mask, xHeightPixels);
@@ -33,12 +25,11 @@ public static class GlyphMaker
 
         FontPoint ToFont(TracePoint p)
         {
-            var pageX = ink.Left + (p.X / TracePreparation.Upsampling);
-            var pageY = ink.Top + (p.Y / TracePreparation.Upsampling);
-            return new FontPoint(((pageX - bodyLeftOnPage) * scale) + leftSidebearing, (cutout.Baseline - pageY) * scale);
+            var onPage = traced.PagePoint(p);
+            return new FontPoint(((onPage.X - bodyLeftOnPage) * scale) + leftSidebearing, (cutout.Baseline - onPage.Y) * scale);
         }
 
-        var contours = PotraceTracer.Trace(TracePreparation.Smooth(ink.Mask), Tracing)
+        var contours = traced.Contours
             .Select(c => Orient(ToContour(c, ToFont), c.IsHole))
             .ToList();
         var bodyWidth = (bodyRight - bodyLeft) * scale;

@@ -6,10 +6,9 @@ namespace Otis.Core.Building;
 public static class TracePreparation
 {
     public const int Upsampling = 3;
-    private const double BlurSigma = 1.3;
 
     // Blurring and upsampling first keeps scan stair-steps from turning into jagged outlines.
-    public static BitGrid Smooth(BitGrid ink)
+    public static BitGrid Smooth(BitGrid ink, double blurSigma)
     {
         var plane = new float[ink.Width * ink.Height];
         for (var y = 0; y < ink.Height; y++)
@@ -20,9 +19,7 @@ public static class TracePreparation
             }
         }
 
-        var blurred = GaussianBlur.Apply(plane, ink.Width, ink.Height, BlurSigma);
-        var wide = ResizeRows(blurred, ink.Width, ink.Height, ink.Width * Upsampling);
-        var big = ResizeColumns(wide, ink.Width * Upsampling, ink.Height, ink.Height * Upsampling);
+        var big = Upsample(GaussianBlur.Apply(plane, ink.Width, ink.Height, blurSigma), ink.Width, ink.Height);
 
         var result = new BitGrid(ink.Width * Upsampling, ink.Height * Upsampling);
         for (var y = 0; y < result.Height; y++)
@@ -35,6 +32,9 @@ public static class TracePreparation
 
         return result;
     }
+
+    public static float[] Upsample(float[] plane, int width, int height) =>
+        ResizeColumns(ResizeRows(plane, width, height, width * Upsampling), width * Upsampling, height, height * Upsampling);
 
     private static float[] ResizeRows(float[] source, int width, int height, int newWidth)
     {

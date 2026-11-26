@@ -3,4 +3,7 @@ using Otis.Core.Imaging;
 
 namespace Otis.Core.Ink;
 
-public sealed record CutoutInk(BitGrid Mask, int Left, int Top);
+public sealed record CutoutInk(BitGrid Mask, int Left, int Top)
+{
+    public BitGrid? Strokes { get; init; }
+}
