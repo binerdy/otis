@@ -17,7 +17,7 @@ public sealed partial class PageCanvas : Grid
     private SKImage? page;
     private Cutout? current;
     private IReadOnlyList<NeighbourCutout> neighbours = [];
-    private IReadOnlyList<InkStroke> strokes = [];
+    private IReadOnlyList<BrushStroke> strokes = [];
     private List<PixelPoint>? liveStroke;
     private float scale = 0.2f;
     private float offsetX;
@@ -50,9 +50,9 @@ public sealed partial class PageCanvas : Grid
 
     public event EventHandler<CanvasEventArgs<PixelRect>>? BoxDrawn;
 
-    public event EventHandler<CanvasEventArgs<InkStroke>>? StrokeDrawn;
+    public event EventHandler<CanvasEventArgs<BrushStroke>>? StrokeDrawn;
 
-    public event EventHandler<CanvasEventArgs<int>>? StrokeRemoved;
+    public event EventHandler<CanvasEventArgs<BrushStroke>>? StrokeRemoved;
 
     public CanvasMode Mode { get; set; }
 
@@ -72,7 +72,7 @@ public sealed partial class PageCanvas : Grid
         this.canvas.Invalidate();
     }
 
-    public void ShowStrokes(IReadOnlyList<InkStroke> pending)
+    public void ShowStrokes(IReadOnlyList<BrushStroke> pending)
     {
         this.strokes = pending;
         this.canvas.Invalidate();
@@ -182,23 +182,25 @@ public sealed partial class PageCanvas : Grid
         _ => InputSystemCursorShape.Hand,
     };
 
-    private static void DrawStrokes(SKCanvas surface, IReadOnlyList<InkStroke> strokes, List<PixelPoint>? live, int liveWidth)
+    // Ink strokes show blue and eraser strokes red, so both read at a glance on the scan.
+    private static void DrawStrokes(SKCanvas surface, IReadOnlyList<BrushStroke> strokes, List<PixelPoint>? live, int liveWidth, bool liveErases)
     {
         using var paint = new SKPaint
         {
-            Color = new SKColor(30, 90, 220, 150),
             Style = SKPaintStyle.Stroke,
             StrokeCap = SKStrokeCap.Round,
             StrokeJoin = SKStrokeJoin.Round,
             IsAntialias = true,
         };
-        foreach (var (width, points) in strokes.Select(s => (s.Width, s.Points)).Append((liveWidth, live ?? [])))
+        var all = strokes.Select(s => (s.Stroke.Width, s.Stroke.Points, s.Erases)).Append((liveWidth, live ?? [], liveErases));
+        foreach (var (width, points, erases) in all)
         {
             if (points.Count == 0)
             {
                 continue;
             }
 
+            paint.Color = erases ? new SKColor(220, 30, 30, 140) : new SKColor(30, 90, 220, 150);
             paint.StrokeWidth = Math.Max(1, width);
             using var builder = new SKPathBuilder();
             builder.MoveTo(ToSk(points[0]));
@@ -263,7 +265,7 @@ public sealed partial class PageCanvas : Grid
             DrawCurrent(surface, this.current, unit);
         }
 
-        DrawStrokes(surface, this.strokes, this.liveStroke, this.BrushWidth);
+        DrawStrokes(surface, this.strokes, this.liveStroke, this.BrushWidth, this.Mode == CanvasMode.DrawEraser);
         if (this.drag is { Kind: DragKind.NewBox or DragKind.NewErasure } d)
         {
             using var dashed = new SKPaint
@@ -353,7 +355,7 @@ public sealed partial class PageCanvas : Grid
             return;
         }
 
-        if (this.Mode == CanvasMode.DrawInk && this.current is not null)
+        if (this.Mode is CanvasMode.DrawInk or CanvasMode.DrawEraser && this.current is not null)
         {
             this.drag = new Drag(DragKind.NewStroke, p, this.current);
             this.liveStroke = [new PixelPoint((int)Math.Round(p.X), (int)Math.Round(p.Y))];
@@ -434,7 +436,7 @@ public sealed partial class PageCanvas : Grid
     {
         if (this.drag is { Kind: DragKind.NewStroke } && this.liveStroke is { } live)
         {
-            this.StrokeDrawn?.Invoke(this, new(new InkStroke(this.BrushWidth, live.ToArray())));
+            this.StrokeDrawn?.Invoke(this, new(new BrushStroke(new InkStroke(this.BrushWidth, live.ToArray()), this.Mode == CanvasMode.DrawEraser, -1)));
             this.liveStroke = null;
         }
 
@@ -514,12 +516,12 @@ public sealed partial class PageCanvas : Grid
     {
         for (var i = this.strokes.Count - 1; i >= 0; i--)
         {
-            var stroke = this.strokes[i];
+            var stroke = this.strokes[i].Stroke;
             var near = stroke.Points.Select((q, k) => SegmentDistance(p, ToSk(q), ToSk(stroke.Points[Math.Min(k + 1, stroke.Points.Count - 1)])))
                 .Any(distance => distance <= (stroke.Width / 2f) + (GrabDistance / this.scale));
             if (near)
             {
-                this.StrokeRemoved?.Invoke(this, new(i));
+                this.StrokeRemoved?.Invoke(this, new(this.strokes[i]));
                 return;
             }
         }

@@ -25,7 +25,9 @@ public sealed partial class EditorView : UserControl
             this.ShowLines();
         };
         this.Canvas.BoxDrawn += (_, e) => this.ViewModel?.CreateFromBox(e.Value);
-        this.Canvas.NeighbourSelected += (_, e) => this.ViewModel?.Select(e.Value);
+        this.Canvas.NeighbourSelected += async (_, e) => await this.SelectAsync(e.Value);
+        this.Canvas.StrokeDrawn += (_, e) => this.ViewModel?.AddStroke(e.Value);
+        this.Canvas.StrokeRemoved += (_, e) => this.ViewModel?.RemoveStroke(e.Value);
     }
 
     public EditorViewModel? ViewModel
@@ -49,6 +51,11 @@ public sealed partial class EditorView : UserControl
 
     public static bool Not(bool value) => !value;
 
+    public static double Dimmed(bool enabled) => enabled ? 1 : 0.45;
+
+    public static string[] SmoothingLevels() =>
+        [Strings.Get("SmoothingOff"), Strings.Get("SmoothingLight"), Strings.Get("SmoothingMedium"), Strings.Get("SmoothingStrong")];
+
     private static Brush Resource(string key) => (Brush)Application.Current.Resources[key];
 
     private static void OnViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -59,6 +66,7 @@ public sealed partial class EditorView : UserControl
             old.PageImageChanged -= view.OnPageImageChanged;
             old.CutoutsChanged -= view.OnCutoutsChanged;
             old.PropertyChanged -= view.OnViewModelPropertyChanged;
+            old.StrokesChanged -= view.OnStrokesChanged;
         }
 
         if (e.NewValue is EditorViewModel current)
@@ -66,11 +74,16 @@ public sealed partial class EditorView : UserControl
             current.PageImageChanged += view.OnPageImageChanged;
             current.CutoutsChanged += view.OnCutoutsChanged;
             current.PropertyChanged += view.OnViewModelPropertyChanged;
+            current.StrokesChanged += view.OnStrokesChanged;
+            view.Canvas.BrushWidth = (int)current.BrushWidth;
         }
 
         view.Canvas.ShowPage(null);
         view.Canvas.ShowCutouts(null, []);
+        view.Canvas.ShowStrokes([]);
     }
+
+    private void OnStrokesChanged(object? sender, EventArgs e) => this.Canvas.ShowStrokes(this.ViewModel?.PendingStrokes() ?? []);
 
     private void OnPageImageChanged(object? sender, EventArgs e) => this.Canvas.ShowPage(this.ViewModel?.PageImage);
 
@@ -96,6 +109,10 @@ public sealed partial class EditorView : UserControl
         {
             this.Canvas.Mode = vm.RequestedMode;
             this.Canvas.Focus(FocusState.Programmatic);
+        }
+        else if (e.PropertyName == nameof(EditorViewModel.BrushWidth) && this.ViewModel is { } brush)
+        {
+            this.Canvas.BrushWidth = (int)brush.BrushWidth;
         }
     }
 
@@ -126,7 +143,7 @@ public sealed partial class EditorView : UserControl
     {
         if (e.ClickedItem is CharacterCellViewModel cell)
         {
-            this.ViewModel?.Select(cell.Glyph);
+            _ = this.SelectAsync(cell.Glyph);
         }
     }
 
@@ -147,6 +164,12 @@ public sealed partial class EditorView : UserControl
                 break;
             case VirtualKey.E:
                 vm.StartErasure();
+                break;
+            case VirtualKey.I:
+                vm.StartInkBrush();
+                break;
+            case VirtualKey.R:
+                vm.StartEraser();
                 break;
             case VirtualKey.Escape:
                 vm.RequestedMode = CanvasMode.Edit;
@@ -242,6 +265,40 @@ public sealed partial class EditorView : UserControl
         }
 
         await vm.InstallAsync(build.Record);
+    }
+
+    // Adjustments belong to one letter; switching first asks whether to keep them.
+    private async Task SelectAsync(string glyph)
+    {
+        if (this.ViewModel is not { } vm || glyph == vm.SelectedGlyph)
+        {
+            return;
+        }
+
+        if (vm.HasPendingAdjustments && vm.SelectedGlyph is { } current)
+        {
+            var dialog = new ContentDialog
+            {
+                XamlRoot = this.XamlRoot,
+                Content = new TextBlock { Text = Strings.Format("PendingSwitchFormat", GlyphNames.Display(current)), TextWrapping = TextWrapping.Wrap },
+                PrimaryButtonText = Strings.Get("Apply"),
+                SecondaryButtonText = Strings.Get("DiscardAdjustments"),
+                CloseButtonText = Strings.Get("Cancel"),
+                DefaultButton = ContentDialogButton.Primary,
+            };
+            var answer = await dialog.ShowAsync();
+            if (answer == ContentDialogResult.None)
+            {
+                return;
+            }
+
+            if (answer == ContentDialogResult.Primary)
+            {
+                vm.ApplyAdjustments();
+            }
+        }
+
+        vm.Select(glyph);
     }
 
     private async Task<bool> ConfirmAsync(string text, string? primary)

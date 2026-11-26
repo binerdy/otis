@@ -1,6 +1,9 @@
 ﻿// SPDX-License-Identifier: GPL-3.0-or-later
 using Microsoft.UI.Xaml.Media.Imaging;
+using Otis.Core.Building;
 using Otis.Core.Imaging;
+using Otis.Core.Projects;
+using Otis.Core.Tracing;
 using SkiaSharp;
 using Windows.Storage.Streams;
 
@@ -47,6 +50,53 @@ public static class Images
         {
             DrawLine(canvas, baselineRow, width, new SKColor(0, 160, 0));
             DrawLine(canvas, xLineRow, width, new SKColor(42, 90, 255));
+        }
+
+        using var png = bitmap.Encode(SKEncodedImageFormat.Png, 100);
+        return png.ToArray();
+    }
+
+    // The traced curves, filled as the font will draw them, at twice the scan resolution.
+    public static byte[] OutlinePng(TracedCutout traced, Cutout cutout)
+    {
+        const float Zoom = 2;
+        var width = Math.Max(1, (int)(traced.Ink.Mask.Width * Zoom));
+        var height = Math.Max(1, (int)(traced.Ink.Mask.Height * Zoom));
+        SKPoint Local(TracePoint p)
+        {
+            var page = traced.PagePoint(p);
+            return new SKPoint((float)(page.X - traced.Ink.Left) * Zoom, (float)(page.Y - traced.Ink.Top) * Zoom);
+        }
+
+        using var builder = new SKPathBuilder { FillType = SKPathFillType.EvenOdd };
+        foreach (var contour in traced.Contours)
+        {
+            builder.MoveTo(Local(contour.Start));
+            foreach (var s in contour.Segments)
+            {
+                if (s.IsCorner)
+                {
+                    builder.LineTo(Local(s.C1));
+                    builder.LineTo(Local(s.End));
+                }
+                else
+                {
+                    builder.CubicTo(Local(s.C1), Local(s.C2), Local(s.End));
+                }
+            }
+
+            builder.Close();
+        }
+
+        using var path = builder.Detach();
+        using var bitmap = new SKBitmap(width, height, SKColorType.Rgba8888, SKAlphaType.Opaque);
+        using (var canvas = new SKCanvas(bitmap))
+        {
+            canvas.Clear(SKColors.White);
+            using var fill = new SKPaint { Color = new SKColor(20, 20, 20), IsAntialias = true };
+            canvas.DrawPath(path, fill);
+            DrawLine(canvas, (int)((cutout.Baseline - traced.Ink.Top) * Zoom), width, new SKColor(0, 160, 0));
+            DrawLine(canvas, (int)((cutout.XLine - traced.Ink.Top) * Zoom), width, new SKColor(42, 90, 255));
         }
 
         using var png = bitmap.Encode(SKEncodedImageFormat.Png, 100);

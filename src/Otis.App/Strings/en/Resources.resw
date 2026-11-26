@@ -130,7 +130,7 @@
     <value>PREVIEW: WHAT WILL BE CUT OUT</value>
   </data>
   <data name="EditorHelp" xml:space="preserve">
-    <value>Drag the box to move it, also onto a better letter. Drag a corner to reshape it, double-click an edge to add a corner, right-click a corner or erase area to remove it. B draws a new box, E an erase area. The green line is the bottom of a, n, e; the blue line their top. Capitals use the lines of the small letters beside them. Mouse wheel zooms, dragging empty space pans, arrow keys nudge (Shift: 10 px).</value>
+    <value>Drag the box to move it, also onto a better letter. Drag a corner to reshape it, double-click an edge to add a corner, right-click a corner or erase area to remove it. B draws a new box, E an erase area, I paints ink, R erases with a brush. The green line is the bottom of a, n, e; the blue line their top. Capitals use the lines of the small letters beside them. Mouse wheel zooms, dragging empty space pans, arrow keys nudge (Shift: 10 px).</value>
   </data>
   <data name="BuildTitle" xml:space="preserve">
     <value>BUILD FONT</value>
@@ -233,6 +233,66 @@
   </data>
   <data name="CreateFailedFormat" xml:space="preserve">
     <value>The project could not be created: {0}</value>
+  </data>
+  <data name="AdjustTitle" xml:space="preserve">
+    <value>ADJUST</value>
+  </data>
+  <data name="GreyTracing" xml:space="preserve">
+    <value>Trace from grey scan</value>
+  </data>
+  <data name="Smoothing" xml:space="preserve">
+    <value>Smoothing</value>
+  </data>
+  <data name="SmoothingOff" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="SmoothingLight" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="SmoothingMedium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="SmoothingStrong" xml:space="preserve">
+    <value>Strong</value>
+  </data>
+  <data name="Repair" xml:space="preserve">
+    <value>Repair</value>
+  </data>
+  <data name="CloseGaps" xml:space="preserve">
+    <value>Close gaps</value>
+  </data>
+  <data name="InkBrush" xml:space="preserve">
+    <value>Ink brush</value>
+  </data>
+  <data name="Eraser" xml:space="preserve">
+    <value>Eraser</value>
+  </data>
+  <data name="BrushWidth" xml:space="preserve">
+    <value>Brush width</value>
+  </data>
+  <data name="StrokeCountFormat" xml:space="preserve">
+    <value>{0} ink · {1} eraser strokes</value>
+  </data>
+  <data name="UndoLastStroke" xml:space="preserve">
+    <value>Undo last stroke</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="Applied" xml:space="preserve">
+    <value>Applied</value>
+  </data>
+  <data name="Adjusted" xml:space="preserve">
+    <value>Adjusted</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="DiscardAdjustments" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+  <data name="PendingSwitchFormat" xml:space="preserve">
+    <value>Apply the adjustments to {0} before switching?</value>
   </data>
   <data name="SaveBeforeBuild" xml:space="preserve">
     <value>Some letters have unsaved changes. Save them before building?</value>

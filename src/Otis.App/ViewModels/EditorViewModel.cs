@@ -23,6 +23,8 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
     private readonly Dictionary<string, Cutout?> drafts = [with(StringComparer.Ordinal)];
     private readonly Dictionary<string, CharacterCellViewModel> cells = [with(StringComparer.Ordinal)];
     private CancellationTokenSource? previewDelay;
+    private CutoutAdjustments pending = CutoutAdjustments.None;
+    private List<bool> strokeOrder = [];
 
     public EditorViewModel(OtisWorkspace workspace, string projectPath, LoadedProject loaded)
     {
@@ -51,6 +53,8 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
     public event EventHandler? PageImageChanged;
 
     public event EventHandler<CanvasEventArgs<bool>>? CutoutsChanged;
+
+    public event EventHandler? StrokesChanged;
 
     public string ProjectPath { get; }
 
@@ -115,6 +119,46 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
     [ObservableProperty]
     public partial bool IsBusy { get; set; }
 
+    [ObservableProperty]
+    public partial double BrushWidth { get; set; } = 8;
+
+    [ObservableProperty]
+    public partial ImageSource? AppliedOutline { get; set; }
+
+    [ObservableProperty]
+    public partial ImageSource? AdjustedOutline { get; set; }
+
+    public CutoutAdjustments Applied => this.SelectedCutout?.Adjustments ?? CutoutAdjustments.None;
+
+    public bool CanAdjust => this.SelectedCutout is not null && !this.IsReadOnly;
+
+    public bool HasPendingAdjustments => this.SelectedCutout is not null && this.pending != this.Applied;
+
+    public string StrokeSummary => Strings.Format("StrokeCountFormat", this.pending.InkStrokes.Count, this.pending.EraseStrokes.Count);
+
+    public bool PendingGreyTracing
+    {
+        get => this.pending.GreyTracing;
+        set => this.SetPending(this.pending with { GreyTracing = value });
+    }
+
+    public int PendingSmoothing
+    {
+        get => (int)this.pending.Smoothing;
+        set => this.SetPending(this.pending with { Smoothing = (SmoothingLevel)Math.Clamp(value, 0, 3) });
+    }
+
+    public double PendingCloseGaps
+    {
+        get => this.pending.CloseGaps;
+        set => this.SetPending(this.pending with { CloseGaps = (int)Math.Round(value) });
+    }
+
+    public IReadOnlyList<BrushStroke> PendingStrokes() =>
+        this.pending.InkStrokes.Select((s, i) => new BrushStroke(s, Erases: false, i))
+            .Concat(this.pending.EraseStrokes.Select((s, i) => new BrushStroke(s, Erases: true, i)))
+            .ToArray();
+
     public async Task LoadAsync()
     {
         await this.LoadPagesAsync();
@@ -139,6 +183,7 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
         var derivation = this.Project.Derivations.Describe(glyph);
         this.SelectionTitle = derivation is null ? $"{display}  ({glyph})" : $"{display}  ({glyph})  {derivation}";
         this.OnPropertyChanged(nameof(this.HasSelection));
+        this.ResetPending();
 
         if (this.CutoutOf(glyph) is { } cutout)
         {
@@ -179,8 +224,14 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
             return;
         }
 
+        var inSync = this.pending == this.Applied;
         this.drafts[glyph] = cutout;
         this.MarkDirty(glyph);
+        if (inSync)
+        {
+            this.ResetPending();
+        }
+
         this.SchedulePreview();
     }
 
@@ -272,6 +323,88 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
         }
     }
 
+    public void AddStroke(BrushStroke brush)
+    {
+        this.strokeOrder.Add(brush.Erases);
+        this.SetPending(brush.Erases
+            ? this.pending with { EraseStrokes = this.pending.EraseStrokes.Append(brush.Stroke).ToArray() }
+            : this.pending with { InkStrokes = this.pending.InkStrokes.Append(brush.Stroke).ToArray() });
+    }
+
+    public void RemoveStroke(BrushStroke brush)
+    {
+        var position = this.strokeOrder.Select((erases, i) => (erases, i)).Where(o => o.erases == brush.Erases).Select(o => o.i).ElementAtOrDefault(brush.Index);
+        if (position < this.strokeOrder.Count)
+        {
+            this.strokeOrder.RemoveAt(position);
+        }
+
+        this.SetPending(brush.Erases
+            ? this.pending with { EraseStrokes = this.pending.EraseStrokes.Where((_, i) => i != brush.Index).ToArray() }
+            : this.pending with { InkStrokes = this.pending.InkStrokes.Where((_, i) => i != brush.Index).ToArray() });
+    }
+
+    [RelayCommand]
+    public void UndoGreyTracing() => this.SetPending(this.pending with { GreyTracing = this.Applied.GreyTracing });
+
+    [RelayCommand]
+    public void UndoSmoothing() => this.SetPending(this.pending with { Smoothing = this.Applied.Smoothing });
+
+    [RelayCommand]
+    public void UndoRepair()
+    {
+        var applied = this.Applied;
+        this.strokeOrder = StrokeOrderOf(applied);
+        this.SetPending(this.pending with { CloseGaps = applied.CloseGaps, InkStrokes = applied.InkStrokes, EraseStrokes = applied.EraseStrokes });
+    }
+
+    [RelayCommand]
+    public void UndoLastStroke()
+    {
+        if (this.strokeOrder.Count == 0)
+        {
+            return;
+        }
+
+        var erases = this.strokeOrder[^1];
+        var count = erases ? this.pending.EraseStrokes.Count : this.pending.InkStrokes.Count;
+        if (count > 0)
+        {
+            this.RemoveStroke(new BrushStroke(new InkStroke(0, []), erases, count - 1));
+        }
+        else
+        {
+            this.strokeOrder.RemoveAt(this.strokeOrder.Count - 1);
+        }
+    }
+
+    [RelayCommand]
+    public void ApplyAdjustments()
+    {
+        if (this.SelectedCutout is { } cutout && this.HasPendingAdjustments)
+        {
+            var adjusted = cutout.WithAdjustments(this.pending);
+            this.drafts[this.SelectedGlyph!] = adjusted;
+            this.MarkDirty(this.SelectedGlyph!);
+            this.ResetPending();
+            this.SchedulePreview();
+            this.CutoutsChanged?.Invoke(this, new(false));
+        }
+    }
+
+    [RelayCommand]
+    public void DiscardAdjustments()
+    {
+        this.ResetPending();
+        this.SchedulePreview();
+    }
+
+    [RelayCommand]
+    public void StartInkBrush() => this.RequestedMode = this.CanAdjust ? CanvasMode.DrawInk : CanvasMode.Edit;
+
+    [RelayCommand]
+    public void StartEraser() => this.RequestedMode = this.CanAdjust ? CanvasMode.DrawEraser : CanvasMode.Edit;
+
     [RelayCommand]
     public void StartBox() => this.RequestedMode = CanvasMode.DrawBox;
 
@@ -361,6 +494,9 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
         this.previewDelay?.Dispose();
         this.PageImage?.Dispose();
     }
+
+    private static List<bool> StrokeOrderOf(CutoutAdjustments adjustments) =>
+        [.. Enumerable.Repeat(false, adjustments.InkStrokes.Count), .. Enumerable.Repeat(true, adjustments.EraseStrokes.Count)];
 
     private static FontVersion ParseVersion(string text) =>
         FontVersion.TryParse(text, out var version) ? version : throw new InvalidOperationException(Strings.Format("VersionFormatHint", text));
@@ -484,6 +620,33 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
         this.CutoutsChanged?.Invoke(this, new(true));
     }
 
+    private void ResetPending()
+    {
+        var applied = this.Applied;
+        this.strokeOrder = StrokeOrderOf(applied);
+        this.SetPending(applied, preview: false);
+    }
+
+    private void SetPending(CutoutAdjustments adjustments, bool preview = true)
+    {
+        this.pending = adjustments with { CloseGaps = Math.Clamp(adjustments.CloseGaps, 0, CutoutAdjustments.MaxCloseGaps) };
+        string[] changed =
+        [
+            nameof(this.PendingGreyTracing), nameof(this.PendingSmoothing), nameof(this.PendingCloseGaps),
+            nameof(this.StrokeSummary), nameof(this.HasPendingAdjustments), nameof(this.CanAdjust),
+        ];
+        foreach (var name in changed)
+        {
+            this.OnPropertyChanged(name);
+        }
+
+        this.StrokesChanged?.Invoke(this, EventArgs.Empty);
+        if (preview)
+        {
+            this.SchedulePreview();
+        }
+    }
+
     private void SchedulePreview()
     {
         this.previewDelay?.Cancel();
@@ -499,22 +662,27 @@ public sealed partial class EditorViewModel : ObservableObject, IDisposable
             await Task.Delay(PreviewDelay, cancellationToken);
             if (this.SelectedCutout is not { } cutout)
             {
-                this.Preview = null;
+                this.Preview = this.AppliedOutline = this.AdjustedOutline = null;
                 return;
             }
 
+            var adjusted = cutout.WithAdjustments(this.pending);
             var pages = this.workspace.PagesFor(this.ProjectPath, this.Project);
-            var png = await Task.Run(
+            var (inkPng, appliedPng, adjustedPng) = await Task.Run(
                 async () =>
                 {
                     var page = await pages.PageAsync(cutout.Source, cutout.Page);
                     var ink = CutoutExtractor.Extract(page, cutout);
-                    return Images.InkPng(ink.Mask, cutout.Baseline - ink.Top, cutout.XLine - ink.Top);
+                    var applied = Images.OutlinePng(CutoutTracer.Trace(page, cutout), cutout);
+                    var changed = adjusted.Adjustments == cutout.Adjustments ? applied : Images.OutlinePng(CutoutTracer.Trace(page, adjusted), adjusted);
+                    return (Images.InkPng(ink.Mask, cutout.Baseline - ink.Top, cutout.XLine - ink.Top), applied, changed);
                 },
                 cancellationToken);
             if (!cancellationToken.IsCancellationRequested)
             {
-                this.Preview = await Images.FromPngAsync(png);
+                this.Preview = await Images.FromPngAsync(inkPng);
+                this.AppliedOutline = await Images.FromPngAsync(appliedPng);
+                this.AdjustedOutline = await Images.FromPngAsync(adjustedPng);
             }
         }
         catch (OperationCanceledException)

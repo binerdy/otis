@@ -7,4 +7,5 @@ public enum CanvasMode
     DrawBox,
     DrawErasure,
     DrawInk,
+    DrawEraser,
 }

@@ -130,7 +130,7 @@
     <value>VORSCHAU: SO WIRD AUSGESCHNITTEN</value>
   </data>
   <data name="EditorHelp" xml:space="preserve">
-    <value>Kasten ziehen verschiebt ihn, auch auf einen besseren Buchstaben. Ecke ziehen ändert die Form, Doppelklick auf eine Kante fügt eine Ecke hinzu, Rechtsklick auf Ecke oder Radierbereich entfernt sie. B zieht einen neuen Kasten, E einen Radierbereich. Die grüne Linie ist die Unterkante von a, n, e, die blaue ihre Oberkante. Grossbuchstaben nehmen die Linien der Kleinbuchstaben daneben. Mausrad zoomt, leere Fläche ziehen verschiebt, Pfeiltasten schieben (Shift: 10 px).</value>
+    <value>Kasten ziehen verschiebt ihn, auch auf einen besseren Buchstaben. Ecke ziehen ändert die Form, Doppelklick auf eine Kante fügt eine Ecke hinzu, Rechtsklick auf Ecke oder Radierbereich entfernt sie. B zieht einen neuen Kasten, E einen Radierbereich, I malt Tinte, R radiert mit dem Pinsel. Die grüne Linie ist die Unterkante von a, n, e, die blaue ihre Oberkante. Grossbuchstaben nehmen die Linien der Kleinbuchstaben daneben. Mausrad zoomt, leere Fläche ziehen verschiebt, Pfeiltasten schieben (Shift: 10 px).</value>
   </data>
   <data name="BuildTitle" xml:space="preserve">
     <value>SCHRIFT BAUEN</value>
@@ -233,6 +233,66 @@
   </data>
   <data name="CreateFailedFormat" xml:space="preserve">
     <value>Das Projekt konnte nicht erstellt werden: {0}</value>
+  </data>
+  <data name="AdjustTitle" xml:space="preserve">
+    <value>ANPASSEN</value>
+  </data>
+  <data name="GreyTracing" xml:space="preserve">
+    <value>Aus Graustufen nachzeichnen</value>
+  </data>
+  <data name="Smoothing" xml:space="preserve">
+    <value>Glätten</value>
+  </data>
+  <data name="SmoothingOff" xml:space="preserve">
+    <value>Aus</value>
+  </data>
+  <data name="SmoothingLight" xml:space="preserve">
+    <value>Leicht</value>
+  </data>
+  <data name="SmoothingMedium" xml:space="preserve">
+    <value>Mittel</value>
+  </data>
+  <data name="SmoothingStrong" xml:space="preserve">
+    <value>Stark</value>
+  </data>
+  <data name="Repair" xml:space="preserve">
+    <value>Ausbessern</value>
+  </data>
+  <data name="CloseGaps" xml:space="preserve">
+    <value>Lücken schliessen</value>
+  </data>
+  <data name="InkBrush" xml:space="preserve">
+    <value>Tinte</value>
+  </data>
+  <data name="Eraser" xml:space="preserve">
+    <value>Radierer</value>
+  </data>
+  <data name="BrushWidth" xml:space="preserve">
+    <value>Pinselbreite</value>
+  </data>
+  <data name="StrokeCountFormat" xml:space="preserve">
+    <value>{0} Tinten- · {1} Radierstriche</value>
+  </data>
+  <data name="UndoLastStroke" xml:space="preserve">
+    <value>Letzten Strich zurück</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="Applied" xml:space="preserve">
+    <value>Übernommen</value>
+  </data>
+  <data name="Adjusted" xml:space="preserve">
+    <value>Angepasst</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Übernehmen</value>
+  </data>
+  <data name="DiscardAdjustments" xml:space="preserve">
+    <value>Verwerfen</value>
+  </data>
+  <data name="PendingSwitchFormat" xml:space="preserve">
+    <value>Die Anpassungen an {0} vor dem Wechsel übernehmen?</value>
   </data>
   <data name="SaveBeforeBuild" xml:space="preserve">
     <value>Einige Buchstaben haben ungespeicherte Änderungen. Vor dem Bauen speichern?</value>

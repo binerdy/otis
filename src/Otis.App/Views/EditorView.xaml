@@ -121,6 +121,78 @@
         </Border>
         <TextBlock Text="{x:Bind services:Strings.Get('EditorHelp')}" FontSize="12" TextWrapping="Wrap" Foreground="{ThemeResource SecondaryTextBrush}" />
 
+        <TextBlock Text="{x:Bind services:Strings.Get('AdjustTitle')}" FontSize="12" FontWeight="SemiBold" Foreground="{ThemeResource SecondaryTextBrush}" Margin="0,12,0,0" />
+        <StackPanel Spacing="10" IsHitTestVisible="{x:Bind ViewModel.CanAdjust, Mode=OneWay}" Opacity="{x:Bind local:EditorView.Dimmed(ViewModel.CanAdjust), Mode=OneWay}">
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ToggleSwitch Header="{x:Bind services:Strings.Get('GreyTracing')}" IsOn="{x:Bind ViewModel.PendingGreyTracing, Mode=TwoWay}" />
+            <Button Grid.Column="1" VerticalAlignment="Bottom" Content="{x:Bind services:Strings.Get('Undo')}" Command="{x:Bind ViewModel.UndoGreyTracingCommand, Mode=OneWay}" />
+          </Grid>
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ComboBox Header="{x:Bind services:Strings.Get('Smoothing')}" HorizontalAlignment="Stretch" ItemsSource="{x:Bind local:EditorView.SmoothingLevels()}"
+                      SelectedIndex="{x:Bind ViewModel.PendingSmoothing, Mode=TwoWay}" />
+            <Button Grid.Column="1" VerticalAlignment="Bottom" Content="{x:Bind services:Strings.Get('Undo')}" Command="{x:Bind ViewModel.UndoSmoothingCommand, Mode=OneWay}" />
+          </Grid>
+          <Border BorderBrush="{ThemeResource PanelBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="10">
+            <StackPanel Spacing="6">
+              <Grid ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{x:Bind services:Strings.Get('Repair')}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <Button Grid.Column="1" Content="{x:Bind services:Strings.Get('Undo')}" Command="{x:Bind ViewModel.UndoRepairCommand, Mode=OneWay}" />
+              </Grid>
+              <Slider Header="{x:Bind services:Strings.Get('CloseGaps')}" Minimum="0" Maximum="6" StepFrequency="1" TickFrequency="1" TickPlacement="BottomRight"
+                      Value="{x:Bind ViewModel.PendingCloseGaps, Mode=TwoWay}" />
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <Button Content="{x:Bind services:Strings.Get('InkBrush')}" Command="{x:Bind ViewModel.StartInkBrushCommand, Mode=OneWay}" ToolTipService.ToolTip="I" />
+                <Button Content="{x:Bind services:Strings.Get('Eraser')}" Command="{x:Bind ViewModel.StartEraserCommand, Mode=OneWay}" ToolTipService.ToolTip="R" />
+              </StackPanel>
+              <Slider Header="{x:Bind services:Strings.Get('BrushWidth')}" Minimum="2" Maximum="40" StepFrequency="1" Value="{x:Bind ViewModel.BrushWidth, Mode=TwoWay}" />
+              <Grid ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{x:Bind ViewModel.StrokeSummary, Mode=OneWay}" FontSize="12" VerticalAlignment="Center" Foreground="{ThemeResource SecondaryTextBrush}" />
+                <Button Grid.Column="1" Content="{x:Bind services:Strings.Get('UndoLastStroke')}" Command="{x:Bind ViewModel.UndoLastStrokeCommand, Mode=OneWay}" />
+              </Grid>
+            </StackPanel>
+          </Border>
+          <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Spacing="4">
+              <TextBlock Text="{x:Bind services:Strings.Get('Applied')}" FontSize="12" Foreground="{ThemeResource SecondaryTextBrush}" />
+              <Border Background="White" BorderBrush="{ThemeResource PanelBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="4" MinHeight="90">
+                <Image Source="{x:Bind ViewModel.AppliedOutline, Mode=OneWay}" Stretch="Uniform" MaxHeight="180" />
+              </Border>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Spacing="4">
+              <TextBlock Text="{x:Bind services:Strings.Get('Adjusted')}" FontSize="12" Foreground="{ThemeResource SecondaryTextBrush}" />
+              <Border Background="White" BorderBrush="{ThemeResource AccentBrush}" BorderThickness="1" CornerRadius="6" Padding="4" MinHeight="90">
+                <Image Source="{x:Bind ViewModel.AdjustedOutline, Mode=OneWay}" Stretch="Uniform" MaxHeight="180" />
+              </Border>
+            </StackPanel>
+          </Grid>
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <Button Style="{StaticResource AccentButtonStyle}" Content="{x:Bind services:Strings.Get('Apply')}" Command="{x:Bind ViewModel.ApplyAdjustmentsCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.HasPendingAdjustments, Mode=OneWay}" />
+            <Button Content="{x:Bind services:Strings.Get('DiscardAdjustments')}" Command="{x:Bind ViewModel.DiscardAdjustmentsCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.HasPendingAdjustments, Mode=OneWay}" />
+          </StackPanel>
+        </StackPanel>
+
         <TextBlock Text="{x:Bind services:Strings.Get('BuildTitle')}" FontSize="12" FontWeight="SemiBold" Foreground="{ThemeResource SecondaryTextBrush}" Margin="0,12,0,0" />
         <Grid ColumnSpacing="8">
           <Grid.ColumnDefinitions>
