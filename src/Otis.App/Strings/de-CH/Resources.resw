@@ -12,7 +12,226 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ShellPlaceholder.Text" xml:space="preserve">
-    <value>Öffne oder erstelle ein Projekt, um zu beginnen.</value>
+  <data name="Projects" xml:space="preserve">
+    <value>Projekte</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="RestartNow" xml:space="preserve">
+    <value>Jetzt neu starten</value>
+  </data>
+  <data name="UpdateReadyFormat" xml:space="preserve">
+    <value>Otis {0} ist bereit und wird beim Schliessen installiert.</value>
+  </data>
+  <data name="StartTitle" xml:space="preserve">
+    <value>Aus Handschrift wird eine Schrift</value>
+  </data>
+  <data name="StartHint" xml:space="preserve">
+    <value>Lege ein Projekt neben deinen Scans an, markiere von jedem Buchstaben ein gutes Vorbild, und Otis baut daraus eine Schrift für Word.</value>
+  </data>
+  <data name="NewProject" xml:space="preserve">
+    <value>Neues Projekt</value>
+  </data>
+  <data name="OpenProject" xml:space="preserve">
+    <value>Projekt öffnen</value>
+  </data>
+  <data name="RecentProjects" xml:space="preserve">
+    <value>Zuletzt geöffnet</value>
+  </data>
+  <data name="FamilyNameHint" xml:space="preserve">
+    <value>Wie soll die Schrift heissen? Dieser Name erscheint in der Schriftliste von Word.</value>
+  </data>
+  <data name="FamilyNamePlaceholder" xml:space="preserve">
+    <value>z. B. Kanzlei Fraktur</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="LanguageSystem" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="NightlyUpdates" xml:space="preserve">
+    <value>Nightly-Versionen bei Updates einbeziehen</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="LegendCutOut" xml:space="preserve">
+    <value>aus Vorlage</value>
+  </data>
+  <data name="LegendDerived" xml:space="preserve">
+    <value>abgeleitet</value>
+  </data>
+  <data name="LegendMissing" xml:space="preserve">
+    <value>fehlt</value>
+  </data>
+  <data name="GroupCapitals" xml:space="preserve">
+    <value>GROSSBUCHSTABEN</value>
+  </data>
+  <data name="GroupLowercase" xml:space="preserve">
+    <value>KLEINBUCHSTABEN</value>
+  </data>
+  <data name="GroupDigitsAndPunctuation" xml:space="preserve">
+    <value>ZIFFERN UND ZEICHEN</value>
+  </data>
+  <data name="GroupBuildingBlocks" xml:space="preserve">
+    <value>BAUSTEINE</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>Vorherige Seite</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Nächste Seite</value>
+  </data>
+  <data name="WholePage" xml:space="preserve">
+    <value>Ganze Seite</value>
+  </data>
+  <data name="ZoomToCutout" xml:space="preserve">
+    <value>Zum Kasten</value>
+  </data>
+  <data name="NewBox" xml:space="preserve">
+    <value>Neuer Kasten</value>
+  </data>
+  <data name="Erase" xml:space="preserve">
+    <value>Radierbereich</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="Revert" xml:space="preserve">
+    <value>Verwerfen</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="AddSources" xml:space="preserve">
+    <value>Scans hinzufügen</value>
+  </data>
+  <data name="ExportPages" xml:space="preserve">
+    <value>Seiten als PDF</value>
+  </data>
+  <data name="Baseline" xml:space="preserve">
+    <value>Grundlinie</value>
+  </data>
+  <data name="XLine" xml:space="preserve">
+    <value>x-Höhe</value>
+  </data>
+  <data name="PreviewTitle" xml:space="preserve">
+    <value>VORSCHAU: SO WIRD AUSGESCHNITTEN</value>
+  </data>
+  <data name="EditorHelp" xml:space="preserve">
+    <value>Kasten ziehen verschiebt ihn, auch auf einen besseren Buchstaben. Ecke ziehen ändert die Form, Doppelklick auf eine Kante fügt eine Ecke hinzu, Rechtsklick auf Ecke oder Radierbereich entfernt sie. B zieht einen neuen Kasten, E einen Radierbereich. Die grüne Linie ist die Unterkante von a, n, e, die blaue ihre Oberkante. Grossbuchstaben nehmen die Linien der Kleinbuchstaben daneben. Mausrad zoomt, leere Fläche ziehen verschiebt, Pfeiltasten schieben (Shift: 10 px).</value>
+  </data>
+  <data name="BuildTitle" xml:space="preserve">
+    <value>SCHRIFT BAUEN</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="BuildFont" xml:space="preserve">
+    <value>Schrift bauen</value>
+  </data>
+  <data name="RebuildFormat" xml:space="preserve">
+    <value>{0} neu bauen</value>
+  </data>
+  <data name="OpenOutputFolder" xml:space="preserve">
+    <value>Ordner öffnen</value>
+  </data>
+  <data name="RemoveFromWindows" xml:space="preserve">
+    <value>Aus Windows entfernen</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installieren</value>
+  </data>
+  <data name="SampleText" xml:space="preserve">
+    <value>Mustertext</value>
+  </data>
+  <data name="MissingHintFormat" xml:space="preserve">
+    <value>{0} fehlt. Ziehe einen Kasten um ein gutes Vorbild.</value>
+  </data>
+  <data name="DerivedHintFormat" xml:space="preserve">
+    <value>{0} wird automatisch gebaut ({1}). Ziehe einen Kasten, um ein eigenes Vorbild zu nehmen.</value>
+  </data>
+  <data name="AdjustLinesHint" xml:space="preserve">
+    <value>Jetzt die grüne und blaue Linie an die Kleinbuchstaben daneben anpassen.</value>
+  </data>
+  <data name="SavedHint" xml:space="preserve">
+    <value>Gespeichert.</value>
+  </data>
+  <data name="ExportedFormat" xml:space="preserve">
+    <value>Seiten gespeichert unter {0}</value>
+  </data>
+  <data name="BuildReportFormat" xml:space="preserve">
+    <value>{0} gebaut. Fehlt: {1}</value>
+  </data>
+  <data name="RestartWordHint" xml:space="preserve">
+    <value>Installiert. Word neu starten, um die neue Version zu verwenden.</value>
+  </data>
+  <data name="VersionFormatHint" xml:space="preserve">
+    <value>«{0}» ist keine Version wie 1.004.</value>
+  </data>
+  <data name="NotInstalled" xml:space="preserve">
+    <value>Nicht in Windows installiert</value>
+  </data>
+  <data name="InstalledForAllUsers" xml:space="preserve">
+    <value>Für alle Benutzer installiert</value>
+  </data>
+  <data name="InstalledFormat" xml:space="preserve">
+    <value>Installiert: {0}</value>
+  </data>
+  <data name="InstalledUnknownVersion" xml:space="preserve">
+    <value>Installiert: unbekannte Version</value>
+  </data>
+  <data name="InstalledForAllUsersHint" xml:space="preserve">
+    <value>Diese Schrift ist für alle Benutzer installiert. Windows bevorzugt diese Kopie, also zuerst unter Einstellungen › Personalisierung › Schriftarten entfernen.</value>
+  </data>
+  <data name="DowngradeConfirmFormat" xml:space="preserve">
+    <value>{0} durch die ältere {1} ersetzen?</value>
+  </data>
+  <data name="ReplaceUnknownConfirm" xml:space="preserve">
+    <value>Eine Schrift mit diesem Namen, nicht von Otis gebaut, ist installiert. Ersetzen?</value>
+  </data>
+  <data name="MissingSourceFormat" xml:space="preserve">
+    <value>{0} fehlt. Die Buchstaben darauf bleiben im Projekt erhalten.</value>
+  </data>
+  <data name="LoadingPage" xml:space="preserve">
+    <value>Seite wird geladen …</value>
+  </data>
+  <data name="SourceUnavailable" xml:space="preserve">
+    <value>Scan fehlt</value>
+  </data>
+  <data name="CoverageFormat" xml:space="preserve">
+    <value>{0} aus Vorlage · {1} abgeleitet · {2} fehlen</value>
+  </data>
+  <data name="NewerFormatHint" xml:space="preserve">
+    <value>Dieses Projekt stammt aus einem neueren Otis und ist nur lesbar.</value>
+  </data>
+  <data name="OpenFailedFormat" xml:space="preserve">
+    <value>{0} konnte nicht geöffnet werden: {1}</value>
+  </data>
+  <data name="RemoveConfirmFormat" xml:space="preserve">
+    <value>{0} aus der Schrift entfernen? Er wird dann abgeleitet oder fehlt.</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>Mehr</value>
+  </data>
+  <data name="Discard" xml:space="preserve">
+    <value>Nicht speichern</value>
+  </data>
+  <data name="UnsavedOnClose" xml:space="preserve">
+    <value>Einige Buchstaben haben ungespeicherte Änderungen. Vor dem Schliessen speichern?</value>
+  </data>
+  <data name="SaveBeforeBuild" xml:space="preserve">
+    <value>Einige Buchstaben haben ungespeicherte Änderungen. Vor dem Bauen speichern?</value>
   </data>
 </root>

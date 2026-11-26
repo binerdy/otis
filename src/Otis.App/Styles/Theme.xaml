@@ -2,10 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <FontFamily x:Key="ContentControlThemeFontFamily">ms-appx:///Uno.Fonts.Inter/Fonts/InterVariable.ttf#Inter</FontFamily>
   <SolidColorBrush x:Key="StageBackgroundBrush" Color="#F6F5F2" />
+  <SolidColorBrush x:Key="HeaderBackgroundBrush" Color="#2B2622" />
+  <SolidColorBrush x:Key="HeaderTextBrush" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="HeaderHintBrush" Color="#CFC8BF" />
   <SolidColorBrush x:Key="PanelBackgroundBrush" Color="#FFFFFF" />
   <SolidColorBrush x:Key="PanelBorderBrush" Color="#DDD9D0" />
-  <SolidColorBrush x:Key="CanvasBackgroundBrush" Color="#9A948B" />
-  <SolidColorBrush x:Key="SecondaryTextBrush" Color="#777777" />
+  <SolidColorBrush x:Key="SecondaryTextBrush" Color="#6E6A64" />
   <SolidColorBrush x:Key="CutOutBrush" Color="#2E7D32" />
   <SolidColorBrush x:Key="DerivedBrush" Color="#1F5FBF" />
   <SolidColorBrush x:Key="MissingBrush" Color="#BBBBBB" />

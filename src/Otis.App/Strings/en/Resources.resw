@@ -12,7 +12,226 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ShellPlaceholder.Text" xml:space="preserve">
-    <value>Open or create a project to start.</value>
+  <data name="Projects" xml:space="preserve">
+    <value>Projects</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="RestartNow" xml:space="preserve">
+    <value>Restart now</value>
+  </data>
+  <data name="UpdateReadyFormat" xml:space="preserve">
+    <value>Otis {0} is ready and will be installed when you close Otis.</value>
+  </data>
+  <data name="StartTitle" xml:space="preserve">
+    <value>Turn hand lettering into a font</value>
+  </data>
+  <data name="StartHint" xml:space="preserve">
+    <value>Create a project next to your scans, mark one good example of each letter, and Otis builds a font you can install in Word.</value>
+  </data>
+  <data name="NewProject" xml:space="preserve">
+    <value>New project</value>
+  </data>
+  <data name="OpenProject" xml:space="preserve">
+    <value>Open project</value>
+  </data>
+  <data name="RecentProjects" xml:space="preserve">
+    <value>Recent projects</value>
+  </data>
+  <data name="FamilyNameHint" xml:space="preserve">
+    <value>What should the font be called? This name appears in Word's font list.</value>
+  </data>
+  <data name="FamilyNamePlaceholder" xml:space="preserve">
+    <value>e.g. Kanzlei Fraktur</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="LanguageSystem" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="NightlyUpdates" xml:space="preserve">
+    <value>Include nightly builds in updates</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="LegendCutOut" xml:space="preserve">
+    <value>cut out</value>
+  </data>
+  <data name="LegendDerived" xml:space="preserve">
+    <value>derived</value>
+  </data>
+  <data name="LegendMissing" xml:space="preserve">
+    <value>missing</value>
+  </data>
+  <data name="GroupCapitals" xml:space="preserve">
+    <value>CAPITALS</value>
+  </data>
+  <data name="GroupLowercase" xml:space="preserve">
+    <value>LOWERCASE</value>
+  </data>
+  <data name="GroupDigitsAndPunctuation" xml:space="preserve">
+    <value>DIGITS AND PUNCTUATION</value>
+  </data>
+  <data name="GroupBuildingBlocks" xml:space="preserve">
+    <value>BUILDING BLOCKS</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>Previous page</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Next page</value>
+  </data>
+  <data name="WholePage" xml:space="preserve">
+    <value>Whole page</value>
+  </data>
+  <data name="ZoomToCutout" xml:space="preserve">
+    <value>Zoom to box</value>
+  </data>
+  <data name="NewBox" xml:space="preserve">
+    <value>New box</value>
+  </data>
+  <data name="Erase" xml:space="preserve">
+    <value>Erase area</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Revert" xml:space="preserve">
+    <value>Revert</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="AddSources" xml:space="preserve">
+    <value>Add scans</value>
+  </data>
+  <data name="ExportPages" xml:space="preserve">
+    <value>Export pages as PDF</value>
+  </data>
+  <data name="Baseline" xml:space="preserve">
+    <value>Baseline</value>
+  </data>
+  <data name="XLine" xml:space="preserve">
+    <value>x-height line</value>
+  </data>
+  <data name="PreviewTitle" xml:space="preserve">
+    <value>PREVIEW: WHAT WILL BE CUT OUT</value>
+  </data>
+  <data name="EditorHelp" xml:space="preserve">
+    <value>Drag the box to move it, also onto a better letter. Drag a corner to reshape it, double-click an edge to add a corner, right-click a corner or erase area to remove it. B draws a new box, E an erase area. The green line is the bottom of a, n, e; the blue line their top. Capitals use the lines of the small letters beside them. Mouse wheel zooms, dragging empty space pans, arrow keys nudge (Shift: 10 px).</value>
+  </data>
+  <data name="BuildTitle" xml:space="preserve">
+    <value>BUILD FONT</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="BuildFont" xml:space="preserve">
+    <value>Build font</value>
+  </data>
+  <data name="RebuildFormat" xml:space="preserve">
+    <value>Rebuild {0}</value>
+  </data>
+  <data name="OpenOutputFolder" xml:space="preserve">
+    <value>Open folder</value>
+  </data>
+  <data name="RemoveFromWindows" xml:space="preserve">
+    <value>Remove from Windows</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="SampleText" xml:space="preserve">
+    <value>Sample text</value>
+  </data>
+  <data name="MissingHintFormat" xml:space="preserve">
+    <value>{0} is missing. Draw a box around a good example.</value>
+  </data>
+  <data name="DerivedHintFormat" xml:space="preserve">
+    <value>{0} is built automatically ({1}). Draw a box to use an example of your own.</value>
+  </data>
+  <data name="AdjustLinesHint" xml:space="preserve">
+    <value>Now move the green and blue lines to the small letters beside it.</value>
+  </data>
+  <data name="SavedHint" xml:space="preserve">
+    <value>Saved.</value>
+  </data>
+  <data name="ExportedFormat" xml:space="preserve">
+    <value>Pages exported to {0}</value>
+  </data>
+  <data name="BuildReportFormat" xml:space="preserve">
+    <value>Built {0}. Missing: {1}</value>
+  </data>
+  <data name="RestartWordHint" xml:space="preserve">
+    <value>Installed. Restart Word to use the new version.</value>
+  </data>
+  <data name="VersionFormatHint" xml:space="preserve">
+    <value>'{0}' is not a version like 1.004.</value>
+  </data>
+  <data name="NotInstalled" xml:space="preserve">
+    <value>Not installed in Windows</value>
+  </data>
+  <data name="InstalledForAllUsers" xml:space="preserve">
+    <value>Installed for all users</value>
+  </data>
+  <data name="InstalledFormat" xml:space="preserve">
+    <value>Installed: {0}</value>
+  </data>
+  <data name="InstalledUnknownVersion" xml:space="preserve">
+    <value>Installed: unknown version</value>
+  </data>
+  <data name="InstalledForAllUsersHint" xml:space="preserve">
+    <value>This font is installed for all users. Windows prefers that copy, so remove it first in Settings › Personalization › Fonts.</value>
+  </data>
+  <data name="DowngradeConfirmFormat" xml:space="preserve">
+    <value>Replace {0} with the older {1}?</value>
+  </data>
+  <data name="ReplaceUnknownConfirm" xml:space="preserve">
+    <value>A font with this name, not built by Otis, is installed. Replace it?</value>
+  </data>
+  <data name="MissingSourceFormat" xml:space="preserve">
+    <value>{0} is missing. Its letters are kept in the project.</value>
+  </data>
+  <data name="LoadingPage" xml:space="preserve">
+    <value>Loading page …</value>
+  </data>
+  <data name="SourceUnavailable" xml:space="preserve">
+    <value>scan missing</value>
+  </data>
+  <data name="CoverageFormat" xml:space="preserve">
+    <value>{0} cut out · {1} derived · {2} missing</value>
+  </data>
+  <data name="NewerFormatHint" xml:space="preserve">
+    <value>This project was made with a newer Otis. It is shown read-only.</value>
+  </data>
+  <data name="OpenFailedFormat" xml:space="preserve">
+    <value>{0} could not be opened: {1}</value>
+  </data>
+  <data name="RemoveConfirmFormat" xml:space="preserve">
+    <value>Remove {0} from the font? It will then be derived or missing.</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="Discard" xml:space="preserve">
+    <value>Don't save</value>
+  </data>
+  <data name="UnsavedOnClose" xml:space="preserve">
+    <value>Some letters have unsaved changes. Save them before closing?</value>
+  </data>
+  <data name="SaveBeforeBuild" xml:space="preserve">
+    <value>Some letters have unsaved changes. Save them before building?</value>
   </data>
 </root>

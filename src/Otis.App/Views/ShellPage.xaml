@@ -1,6 +1,67 @@
 <Page x:Class="Otis.App.Views.ShellPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:views="using:Otis.App.Views"
+      xmlns:vm="using:Otis.App.ViewModels"
+      xmlns:services="using:Otis.App.Services"
       Background="{ThemeResource StageBackgroundBrush}">
-  <TextBlock x:Uid="ShellPlaceholder" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <Grid Background="{ThemeResource HeaderBackgroundBrush}" Padding="16,8" ColumnSpacing="8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+        <TextBlock Text="Otis" FontSize="18" FontWeight="SemiBold" Foreground="{ThemeResource HeaderTextBrush}" />
+        <TextBlock Text="{x:Bind ViewModel.Editor.Title, Mode=OneWay, FallbackValue=''}" Foreground="{ThemeResource HeaderHintBrush}" VerticalAlignment="Center" />
+      </StackPanel>
+      <Button Grid.Column="1" Content="{x:Bind services:Strings.Get('Projects')}" Command="{x:Bind ViewModel.CloseCommand}"
+              Visibility="{x:Bind ViewModel.IsEditorVisible, Mode=OneWay}" />
+      <Button Grid.Column="2" Content="{x:Bind services:Strings.Get('Settings')}" Click="OnSettingsClicked" />
+    </Grid>
+
+    <InfoBar Grid.Row="1" IsOpen="{x:Bind ViewModel.Services.IsUpdateReady, Mode=OneWay}" Severity="Informational" IsClosable="True"
+             Message="{x:Bind ViewModel.Services.UpdateMessage, Mode=OneWay}">
+      <InfoBar.ActionButton>
+        <Button Content="{x:Bind services:Strings.Get('RestartNow')}" Click="OnRestartClicked" />
+      </InfoBar.ActionButton>
+    </InfoBar>
+
+    <ScrollViewer Grid.Row="2" Visibility="{x:Bind ViewModel.IsStartVisible, Mode=OneWay}">
+      <StackPanel MaxWidth="720" Margin="24,64" Spacing="18">
+        <TextBlock Text="{x:Bind services:Strings.Get('StartTitle')}" FontSize="30" FontWeight="SemiBold" />
+        <TextBlock Text="{x:Bind services:Strings.Get('StartHint')}" TextWrapping="Wrap" Foreground="{ThemeResource SecondaryTextBrush}" />
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Button Style="{StaticResource AccentButtonStyle}" Content="{x:Bind services:Strings.Get('NewProject')}" Click="OnNewProjectClicked" />
+          <Button Content="{x:Bind services:Strings.Get('OpenProject')}" Command="{x:Bind ViewModel.OpenProjectCommand}" />
+        </StackPanel>
+        <TextBlock Text="{x:Bind ViewModel.Message, Mode=OneWay}" TextWrapping="Wrap" Foreground="{ThemeResource AccentBrush}" />
+        <TextBlock Text="{x:Bind services:Strings.Get('RecentProjects')}" FontWeight="SemiBold" Margin="0,16,0,0"
+                   Visibility="{x:Bind ViewModel.HasRecentProjects, Mode=OneWay}" />
+        <ItemsControl ItemsSource="{x:Bind ViewModel.RecentProjects}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:RecentProjectViewModel">
+              <Button Command="{x:Bind OpenCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Margin="0,0,0,6" Padding="14,10">
+                <StackPanel>
+                  <TextBlock Text="{x:Bind Name}" FontWeight="Medium" />
+                  <TextBlock Text="{x:Bind Folder}" FontSize="12" Foreground="{ThemeResource SecondaryTextBrush}" />
+                </StackPanel>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </ScrollViewer>
+
+    <views:EditorView Grid.Row="2" x:Name="Editor" ViewModel="{x:Bind ViewModel.Editor, Mode=OneWay}"
+                      Visibility="{x:Bind ViewModel.IsEditorVisible, Mode=OneWay}" />
+  </Grid>
 </Page>
