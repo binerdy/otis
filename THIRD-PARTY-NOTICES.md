@@ -6,6 +6,7 @@ Otis includes or depends on the following third-party work. Package versions are
 | Component | Use in Otis | License |
 | --- | --- | --- |
 | [Potrace](https://potrace.sourceforge.net) 1.16 by Peter Selinger | Ported to C# in `src/Otis.Core/Tracing` | GPL-2.0-or-later |
+| [potracer](https://github.com/tatarize/potrace) by Tatarize | Structure guide for the port; generated the reference traces in `tests/Otis.ApiTests/TestData` | GPL-2.0-or-later |
 | [Uno Platform](https://platform.uno) | UI framework | Apache-2.0 |
 | [Windows App SDK](https://github.com/microsoft/WindowsAppSDK) | Windows head | MIT |
 | [CommunityToolkit.Mvvm](https://github.com/CommunityToolkit/dotnet) | View models | MIT |

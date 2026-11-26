@@ -8,12 +8,15 @@ Turn ink into smooth, correct outlines that keep the character of the hand lette
 ### Requirement: Potrace port
 Tracing SHALL be a C# port of Potrace 1.16 (path decomposition, polygon optimisation, corner
 detection, curve optimisation) in `Otis.Core/Tracing`, with Potrace's copyright and license
-notice. Its output SHALL match Potrace's reference output for the same bitmap and parameters within
-0.01 pixel per control point.
+notice. It SHALL follow the C original where ports differ (outside pixels are background, C integer
+division, the full `majority` radius). Its output SHALL match the stored reference traces for the same
+bitmap and parameters within 0.01 pixel per control point. The references are synthetic shapes traced
+with potracer (a Python port of Potrace 1.16) using the black turn policy, which does not depend on
+`majority`.
 
 #### Scenario: Reference bitmaps
-- **WHEN** the test bitmaps are traced with default parameters
-- **THEN** every curve matches the stored Potrace reference output
+- **WHEN** the reference bitmaps are traced with the black turn policy
+- **THEN** every segment matches the stored reference trace
 
 ### Requirement: Smoothing before tracing
 The ink SHALL be blurred (sigma 1.3 pixels), upsampled three times with bicubic interpolation and

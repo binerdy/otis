@@ -19,4 +19,8 @@
     <ProjectReference Include="..\..\src\Otis.Infrastructure\Otis.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="TestData\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

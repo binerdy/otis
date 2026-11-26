@@ -94,3 +94,13 @@ dotnet_diagnostic.RS0030.severity = none
 [src/Otis.App/**.cs]
 # CommunityToolkit.Mvvm generates camelCase backing fields next to PascalCase commands.
 dotnet_diagnostic.CA1708.severity = none
+
+# The Potrace port mirrors the C original line by line so it stays comparable: exact zero tests, 3x3 matrices,
+# array-backed internal state and its loop shapes are kept on purpose.
+[src/Otis.Core/Tracing/**.cs]
+dotnet_diagnostic.CA1814.severity = none
+dotnet_diagnostic.CA1819.severity = none
+dotnet_diagnostic.S1244.severity = none
+dotnet_diagnostic.S1994.severity = none
+dotnet_diagnostic.S2234.severity = none
+dotnet_diagnostic.IDE0410.severity = none
