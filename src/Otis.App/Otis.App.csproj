@@ -1,0 +1,41 @@
+<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFramework />
+    <TargetFrameworks>net11.0-windows10.0.26100</TargetFrameworks>
+    <OutputType>WinExe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+    <ApplicationTitle>Otis</ApplicationTitle>
+    <ApplicationId>ch.binerdy.otis</ApplicationId>
+    <ApplicationDisplayVersion>$(Version)</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationPublisher>binerdy</ApplicationPublisher>
+    <Description>Turn hand lettering into an installable font.</Description>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <DefaultLanguage>en</DefaultLanguage>
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);PRI257</MSBuildWarningsAsMessages>
+    <GenerateAssemblyVersionAttribute>true</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>true</GenerateAssemblyInformationalVersionAttribute>
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <UnoFeatures>Mvvm;</UnoFeatures>
+  </PropertyGroup>
+  <ItemGroup>
+    <UnoIcon Include="Assets\Icons\icon.svg" ForegroundFile="Assets\Icons\icon_foreground.svg" Color="#2B2622" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp" />
+    <PackageReference Include="SkiaSharp.Views.WinUI" />
+    <PackageReference Include="Uno.Fonts.Inter" />
+    <PackageReference Include="Velopack" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Otis.Infrastructure\Otis.Infrastructure.csproj" />
+  </ItemGroup>
+  <!-- Uno.Fonts.Inter assets reach the build output but not the publish folder of an unpackaged WinAppSDK head. -->
+  <Target Name="PublishInterFonts" AfterTargets="Publish">
+    <ItemGroup>
+      <_InterFont Include="$(OutDir)Uno.Fonts.Inter\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_InterFont)" DestinationFiles="@(_InterFont->'$(PublishDir)Uno.Fonts.Inter\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+</Project>
