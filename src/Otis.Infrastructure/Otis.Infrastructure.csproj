@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net11.0-windows10.0.26100</TargetFramework>
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <!-- The LibraryImport source generator emits unsafe marshalling code; Otis code itself has no unsafe blocks. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
