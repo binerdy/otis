@@ -49,12 +49,25 @@
         <ItemsControl ItemsSource="{x:Bind ViewModel.RecentProjects}">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="vm:RecentProjectViewModel">
-              <Button Command="{x:Bind OpenCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Margin="0,0,0,6" Padding="14,10">
-                <StackPanel>
-                  <TextBlock Text="{x:Bind Name}" FontWeight="Medium" />
-                  <TextBlock Text="{x:Bind Folder}" FontSize="12" Foreground="{ThemeResource SecondaryTextBrush}" />
-                </StackPanel>
-              </Button>
+              <Grid ColumnSpacing="6" Margin="0,0,0,6">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Command="{x:Bind OpenCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="14,10">
+                  <StackPanel>
+                    <TextBlock Text="{x:Bind Name}" FontWeight="Medium" />
+                    <TextBlock Text="{x:Bind Folder}" FontSize="12" Foreground="{ThemeResource SecondaryTextBrush}" />
+                  </StackPanel>
+                </Button>
+                <Button Grid.Column="1" Content="⋯" VerticalAlignment="Stretch" AutomationProperties.Name="{x:Bind services:Strings.Get('More')}">
+                  <Button.Flyout>
+                    <MenuFlyout>
+                      <MenuFlyoutItem Text="{x:Bind services:Strings.Get('DeleteProject')}" Click="OnDeleteProjectClicked" Tag="{x:Bind Path}" />
+                    </MenuFlyout>
+                  </Button.Flyout>
+                </Button>
+              </Grid>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ItemsControl>

@@ -63,6 +63,38 @@ public sealed partial class ShellPage : Page
         }
     }
 
+    private async void OnDeleteProjectClicked(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement { Tag: string path })
+        {
+            return;
+        }
+
+        var (projectFiles, fontFiles) = ShellViewModel.FilesToDelete(path);
+        var fonts = new CheckBox { Content = Strings.Format("AlsoDeleteFontsFormat", fontFiles), IsEnabled = fontFiles > 0 };
+        var dialog = new ContentDialog
+        {
+            XamlRoot = this.XamlRoot,
+            Title = Strings.Get("DeleteProject"),
+            Content = new StackPanel
+            {
+                Spacing = 12,
+                Children =
+                {
+                    new TextBlock { Text = Strings.Format("DeleteProjectHintFormat", System.IO.Path.GetFileName(path), projectFiles), TextWrapping = TextWrapping.Wrap },
+                    fonts,
+                },
+            },
+            PrimaryButtonText = Strings.Get("MoveToRecycleBin"),
+            CloseButtonText = Strings.Get("Cancel"),
+            DefaultButton = ContentDialogButton.Close,
+        };
+        if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+        {
+            this.ViewModel.Delete(path, fonts.IsChecked == true);
+        }
+    }
+
     private async void OnSettingsClicked(object sender, RoutedEventArgs e)
     {
         var settings = this.ViewModel.Services.Settings;

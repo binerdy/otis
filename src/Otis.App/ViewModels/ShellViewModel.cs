@@ -26,6 +26,13 @@ public sealed partial class ShellViewModel(AppServices services) : ObservableObj
 
     public bool HasRecentProjects => this.RecentProjects.Count > 0;
 
+    public static (int ProjectFiles, int FontFiles) FilesToDelete(string path)
+    {
+        var project = File.Exists(path) ? ProjectStore.Load(path).Project : null;
+        var withoutFonts = ProjectDeleter.FilesOf(path, project, includeFonts: false).Count;
+        return (withoutFonts, ProjectDeleter.FilesOf(path, project, includeFonts: true).Count - withoutFonts);
+    }
+
     public void RefreshRecent()
     {
         this.RecentProjects.Clear();
@@ -94,6 +101,30 @@ public sealed partial class ShellViewModel(AppServices services) : ObservableObj
         {
             this.Message = Strings.Format("OpenFailedFormat", Path.GetFileName(path), e.Message);
         }
+    }
+
+    public void Delete(string path, bool includeFonts)
+    {
+        if (this.Editor is { } open && string.Equals(open.ProjectPath, path, StringComparison.OrdinalIgnoreCase))
+        {
+            this.Close();
+        }
+
+        try
+        {
+            new ProjectDeleter(new RecycleBin()).Delete(path, includeFonts);
+            this.Message = Strings.Format("DeletedFormat", Path.GetFileName(path));
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or JsonException)
+        {
+            this.Message = Strings.Format("DeleteFailedFormat", Path.GetFileName(path), e.Message);
+        }
+
+        services.SaveSettings(services.Settings with
+        {
+            RecentProjects = services.Settings.RecentProjects.Where(p => !string.Equals(p, path, StringComparison.OrdinalIgnoreCase)).ToArray(),
+        });
+        this.RefreshRecent();
     }
 
     [RelayCommand]

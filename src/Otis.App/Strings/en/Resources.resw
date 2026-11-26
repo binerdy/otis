@@ -333,6 +333,24 @@
   <data name="Contrast" xml:space="preserve">
     <value>contrast</value>
   </data>
+  <data name="DeleteProject" xml:space="preserve">
+    <value>Delete project…</value>
+  </data>
+  <data name="DeleteProjectHintFormat" xml:space="preserve">
+    <value>Move {0} and its backups ({1} files) to the Recycle Bin? Your scans are not touched, and a font installed in Windows stays installed.</value>
+  </data>
+  <data name="AlsoDeleteFontsFormat" xml:space="preserve">
+    <value>Also delete the built fonts ({0} files)</value>
+  </data>
+  <data name="MoveToRecycleBin" xml:space="preserve">
+    <value>Move to Recycle Bin</value>
+  </data>
+  <data name="DeletedFormat" xml:space="preserve">
+    <value>{0} was moved to the Recycle Bin.</value>
+  </data>
+  <data name="DeleteFailedFormat" xml:space="preserve">
+    <value>{0} could not be deleted: {1}</value>
+  </data>
   <data name="SaveBeforeBuild" xml:space="preserve">
     <value>Some letters have unsaved changes. Save them before building?</value>
   </data>

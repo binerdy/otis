@@ -87,3 +87,18 @@ Otis SHALL open sources read-only and SHALL never write, rename or delete them.
 #### Scenario: Scan is untouched
 - **WHEN** a project is edited, built and saved
 - **THEN** every source file has the same bytes and modification time as before
+
+### Requirement: Delete a project
+A project SHALL be deletable from the start screen after confirmation. Otis SHALL move the project file
+and its backups to the Recycle Bin, so the deletion can be undone, and remove the project from the
+recent list. Built fonts and their specimens (the files named in the build history) SHALL only be
+moved too when the user ticks "Also delete the built fonts". Sources SHALL never be deleted, and a font
+installed in Windows SHALL stay installed.
+
+#### Scenario: Scans survive
+- **WHEN** the user deletes a project
+- **THEN** the project file and its backups are in the Recycle Bin and every scan is still in place
+
+#### Scenario: Fonts only on request
+- **WHEN** the user deletes a project without ticking "Also delete the built fonts"
+- **THEN** the files in the `fonts/` folder remain

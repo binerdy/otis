@@ -333,6 +333,24 @@
   <data name="Contrast" xml:space="preserve">
     <value>Kontrast</value>
   </data>
+  <data name="DeleteProject" xml:space="preserve">
+    <value>Projekt löschen …</value>
+  </data>
+  <data name="DeleteProjectHintFormat" xml:space="preserve">
+    <value>{0} und die Sicherungen ({1} Dateien) in den Papierkorb verschieben? Deine Scans bleiben unberührt, und eine in Windows installierte Schrift bleibt installiert.</value>
+  </data>
+  <data name="AlsoDeleteFontsFormat" xml:space="preserve">
+    <value>Auch die gebauten Schriften löschen ({0} Dateien)</value>
+  </data>
+  <data name="MoveToRecycleBin" xml:space="preserve">
+    <value>In den Papierkorb</value>
+  </data>
+  <data name="DeletedFormat" xml:space="preserve">
+    <value>{0} liegt jetzt im Papierkorb.</value>
+  </data>
+  <data name="DeleteFailedFormat" xml:space="preserve">
+    <value>{0} konnte nicht gelöscht werden: {1}</value>
+  </data>
   <data name="SaveBeforeBuild" xml:space="preserve">
     <value>Einige Buchstaben haben ungespeicherte Änderungen. Vor dem Bauen speichern?</value>
   </data>
