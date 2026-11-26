@@ -231,6 +231,9 @@
   <data name="UnsavedOnClose" xml:space="preserve">
     <value>Some letters have unsaved changes. Save them before closing?</value>
   </data>
+  <data name="CreateFailedFormat" xml:space="preserve">
+    <value>The project could not be created: {0}</value>
+  </data>
   <data name="SaveBeforeBuild" xml:space="preserve">
     <value>Some letters have unsaved changes. Save them before building?</value>
   </data>

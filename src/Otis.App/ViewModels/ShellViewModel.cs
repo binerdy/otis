@@ -1,5 +1,6 @@
 ﻿// SPDX-License-Identifier: GPL-3.0-or-later
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using Otis.App.Services;
 using Otis.Core.Projects;
@@ -47,7 +48,19 @@ public sealed partial class ShellViewModel(AppServices services) : ObservableObj
 
     public async Task CreateAsync(string familyName)
     {
-        var path = await FileDialogs.SaveAsync(string.Concat(familyName.Where(c => !Path.GetInvalidFileNameChars().Contains(c))), "Otis", ProjectStore.Extension);
+        string? path;
+        try
+        {
+            // The save dialog rejects file types with two dots, so it offers .json and Otis adds the .otis part.
+            var name = string.Concat(familyName.Where(c => !Path.GetInvalidFileNameChars().Contains(c))).Trim();
+            path = await FileDialogs.SaveAsync(name + ".otis", "Otis", ".json");
+        }
+        catch (Exception e) when (e is ArgumentException or COMException or UnauthorizedAccessException)
+        {
+            this.Message = Strings.Format("CreateFailedFormat", e.Message);
+            return;
+        }
+
         if (path is null)
         {
             return;

@@ -12,6 +12,7 @@ public sealed partial class OtisApplication : Application
     public OtisApplication()
     {
         this.InitializeComponent();
+        this.UnhandledException += (_, e) => CrashLog.Write(e.Exception);
     }
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
