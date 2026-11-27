@@ -54,8 +54,10 @@ systems.
 
 ### Requirement: Cutout record
 A cutout SHALL store the source, the page number (1-based), the outline polygon as integer page
-pixels, the erasures as integer rectangles, the baseline and x-line as page rows, and the optional
-extraction overrides (gap closing, minimum speck size). All coordinates SHALL refer to the page
+pixels, the erasures as integer rectangles, the baseline and x-line as page rows, the optional
+extraction overrides (gap closing, minimum speck size), and the optional adjustments (grey tracing,
+smoothing level, ink and eraser strokes as width plus page-pixel points). Adjustments are optional fields, so
+projects without them keep their format version and older Otis versions preserve them unread. All coordinates SHALL refer to the page
 rendered at the project's resolution (default 400 dpi).
 
 #### Scenario: Rectangle cutout
@@ -85,3 +87,18 @@ Otis SHALL open sources read-only and SHALL never write, rename or delete them.
 #### Scenario: Scan is untouched
 - **WHEN** a project is edited, built and saved
 - **THEN** every source file has the same bytes and modification time as before
+
+### Requirement: Delete a project
+A project SHALL be deletable from the start screen after confirmation. Otis SHALL move the project file
+and its backups to the Recycle Bin, so the deletion can be undone, and remove the project from the
+recent list. Built fonts and their specimens (the files named in the build history) SHALL only be
+moved too when the user ticks "Also delete the built fonts". Sources SHALL never be deleted, and a font
+installed in Windows SHALL stay installed.
+
+#### Scenario: Scans survive
+- **WHEN** the user deletes a project
+- **THEN** the project file and its backups are in the Recycle Bin and every scan is still in place
+
+#### Scenario: Fonts only on request
+- **WHEN** the user deletes a project without ticking "Also delete the built fonts"
+- **THEN** the files in the `fonts/` folder remain

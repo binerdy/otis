@@ -76,9 +76,10 @@ Projects:
 - Feature branches merge into `develop` via pull request; CI must be green.
 - Rename files with `git mv`, committing the pure rename separately from content changes.
 
-### Commit Authorship
-- Commits are authored as `Alan Keller <alan.meile@gmail.com>`.
+### Commit Messages
 - Commit messages carry no co-author trailers and no tool-generated footers.
+- Nothing personal goes into the repository: no names, e-mail addresses, local paths or machine
+  details of individual contributors, and no real documents or the people in them.
 
 ## Domain Context
 - **Project** – one `*.otis.json` file next to the scans. It lists the sources, the cutouts and
@@ -111,7 +112,8 @@ Projects:
 - Built fonts must work in Microsoft Word on Windows: Western code page and Unicode ranges set,
   name records on the Windows platform, installable embedding, Windows metrics that cover every
   glyph so flourishes are not clipped.
-- The app works fully offline. Only the update check uses the network.
+- The app works fully offline. The network is used only for the update check and, when the user has
+  entered an Anthropic API key and starts "Read with Claude", for sending the chosen pages to Anthropic.
 - No telemetry.
 
 ## Licensing

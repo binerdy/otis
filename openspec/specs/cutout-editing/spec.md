@@ -67,6 +67,29 @@ updated within half a second after each change and without saving.
 - **WHEN** the user draws an erasure over a piece of the next letter
 - **THEN** that piece disappears from the preview
 
+### Requirement: Adjustments with apply and undo
+The right pane SHALL offer three adjustments for the selected letter, each with its own Undo that
+returns it to the last applied state:
+- **Trace from grey scan** (on/off, see outline-tracing);
+- **Smoothing** (Off, Light, Medium, Strong);
+- **Repair**: "Close gaps" (0–6), an ink brush (key I) and an eraser brush (key R) with an
+  adjustable width, "Undo last stroke" for the most recent stroke of either brush, and right-click on
+  a stroke to remove it.
+
+Adjustments stay pending until **Apply**, which puts them into the letter like any other change
+(then saved with Save). **Discard** drops all pending adjustments. Moving or reshaping the box keeps
+pending adjustments. Selecting another letter with pending adjustments SHALL ask whether to apply them.
+A preview SHALL show the letter's traced outline twice, **Applied** and **Adjusted**, so the effect is
+visible before applying.
+
+#### Scenario: Undo one adjustment
+- **WHEN** the user turns on grey tracing, sets Strong smoothing and paints two strokes, then clicks Undo under Smoothing
+- **THEN** smoothing returns to its applied level while grey tracing and the strokes stay pending
+
+#### Scenario: Apply
+- **WHEN** the user is happy with the Adjusted preview and clicks Apply
+- **THEN** the letter is marked changed and the Applied preview equals the Adjusted one
+
 ### Requirement: Explicit saving
 Changes SHALL stay in memory until the user saves (button or Ctrl+S). Revert SHALL restore the saved
 cutout; Remove SHALL delete the cutout after confirmation so the character becomes derived or

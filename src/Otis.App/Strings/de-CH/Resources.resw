@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Projects" xml:space="preserve">
+    <value>Projekte</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="RestartNow" xml:space="preserve">
+    <value>Jetzt neu starten</value>
+  </data>
+  <data name="UpdateReadyFormat" xml:space="preserve">
+    <value>Otis {0} ist bereit und wird beim Schliessen installiert.</value>
+  </data>
+  <data name="StartTitle" xml:space="preserve">
+    <value>Aus Handschrift wird eine Schrift</value>
+  </data>
+  <data name="StartHint" xml:space="preserve">
+    <value>Lege ein Projekt neben deinen Scans an, markiere von jedem Buchstaben ein gutes Vorbild, und Otis baut daraus eine Schrift für Word.</value>
+  </data>
+  <data name="NewProject" xml:space="preserve">
+    <value>Neues Projekt</value>
+  </data>
+  <data name="OpenProject" xml:space="preserve">
+    <value>Projekt öffnen</value>
+  </data>
+  <data name="RecentProjects" xml:space="preserve">
+    <value>Zuletzt geöffnet</value>
+  </data>
+  <data name="FamilyNameHint" xml:space="preserve">
+    <value>Wie soll die Schrift heissen? Dieser Name erscheint in der Schriftliste von Word.</value>
+  </data>
+  <data name="FamilyNamePlaceholder" xml:space="preserve">
+    <value>z. B. Kanzlei Fraktur</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="LanguageSystem" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="NightlyUpdates" xml:space="preserve">
+    <value>Nightly-Versionen bei Updates einbeziehen</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="LegendCutOut" xml:space="preserve">
+    <value>aus Vorlage</value>
+  </data>
+  <data name="LegendDerived" xml:space="preserve">
+    <value>abgeleitet</value>
+  </data>
+  <data name="LegendMissing" xml:space="preserve">
+    <value>fehlt</value>
+  </data>
+  <data name="GroupCapitals" xml:space="preserve">
+    <value>GROSSBUCHSTABEN</value>
+  </data>
+  <data name="GroupLowercase" xml:space="preserve">
+    <value>KLEINBUCHSTABEN</value>
+  </data>
+  <data name="GroupDigitsAndPunctuation" xml:space="preserve">
+    <value>ZIFFERN UND ZEICHEN</value>
+  </data>
+  <data name="GroupBuildingBlocks" xml:space="preserve">
+    <value>BAUSTEINE</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>Vorherige Seite</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Nächste Seite</value>
+  </data>
+  <data name="WholePage" xml:space="preserve">
+    <value>Ganze Seite</value>
+  </data>
+  <data name="ZoomToCutout" xml:space="preserve">
+    <value>Zum Kasten</value>
+  </data>
+  <data name="NewBox" xml:space="preserve">
+    <value>Neuer Kasten</value>
+  </data>
+  <data name="Erase" xml:space="preserve">
+    <value>Radierbereich</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="Revert" xml:space="preserve">
+    <value>Verwerfen</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="AddSources" xml:space="preserve">
+    <value>Scans hinzufügen</value>
+  </data>
+  <data name="ExportPages" xml:space="preserve">
+    <value>Seiten als PDF</value>
+  </data>
+  <data name="Baseline" xml:space="preserve">
+    <value>Grundlinie</value>
+  </data>
+  <data name="XLine" xml:space="preserve">
+    <value>x-Höhe</value>
+  </data>
+  <data name="PreviewTitle" xml:space="preserve">
+    <value>VORSCHAU: SO WIRD AUSGESCHNITTEN</value>
+  </data>
+  <data name="EditorHelp" xml:space="preserve">
+    <value>Kasten ziehen verschiebt ihn, auch auf einen besseren Buchstaben. Ecke ziehen ändert die Form, Doppelklick auf eine Kante fügt eine Ecke hinzu, Rechtsklick auf Ecke oder Radierbereich entfernt sie. B zieht einen neuen Kasten, E einen Radierbereich, I malt Tinte, R radiert mit dem Pinsel. Die grüne Linie ist die Unterkante von a, n, e, die blaue ihre Oberkante. Grossbuchstaben nehmen die Linien der Kleinbuchstaben daneben. Mausrad zoomt, leere Fläche ziehen verschiebt, Pfeiltasten schieben (Shift: 10 px).</value>
+  </data>
+  <data name="BuildTitle" xml:space="preserve">
+    <value>SCHRIFT BAUEN</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="BuildFont" xml:space="preserve">
+    <value>Schrift bauen</value>
+  </data>
+  <data name="RebuildFormat" xml:space="preserve">
+    <value>{0} neu bauen</value>
+  </data>
+  <data name="OpenOutputFolder" xml:space="preserve">
+    <value>Ordner öffnen</value>
+  </data>
+  <data name="RemoveFromWindows" xml:space="preserve">
+    <value>Aus Windows entfernen</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installieren</value>
+  </data>
+  <data name="SampleText" xml:space="preserve">
+    <value>Mustertext</value>
+  </data>
+  <data name="MissingHintFormat" xml:space="preserve">
+    <value>{0} fehlt. Ziehe einen Kasten um ein gutes Vorbild.</value>
+  </data>
+  <data name="DerivedHintFormat" xml:space="preserve">
+    <value>{0} wird automatisch gebaut ({1}). Ziehe einen Kasten, um ein eigenes Vorbild zu nehmen.</value>
+  </data>
+  <data name="AdjustLinesHint" xml:space="preserve">
+    <value>Jetzt die grüne und blaue Linie an die Kleinbuchstaben daneben anpassen.</value>
+  </data>
+  <data name="SavedHint" xml:space="preserve">
+    <value>Gespeichert.</value>
+  </data>
+  <data name="ExportedFormat" xml:space="preserve">
+    <value>Seiten gespeichert unter {0}</value>
+  </data>
+  <data name="BuildReportFormat" xml:space="preserve">
+    <value>{0} gebaut. Fehlt: {1}</value>
+  </data>
+  <data name="RestartWordHint" xml:space="preserve">
+    <value>Installiert. Word neu starten, um die neue Version zu verwenden.</value>
+  </data>
+  <data name="VersionFormatHint" xml:space="preserve">
+    <value>«{0}» ist keine Version wie 1.004.</value>
+  </data>
+  <data name="NotInstalled" xml:space="preserve">
+    <value>Nicht in Windows installiert</value>
+  </data>
+  <data name="InstalledForAllUsers" xml:space="preserve">
+    <value>Für alle Benutzer installiert</value>
+  </data>
+  <data name="InstalledFormat" xml:space="preserve">
+    <value>Installiert: {0}</value>
+  </data>
+  <data name="InstalledUnknownVersion" xml:space="preserve">
+    <value>Installiert: unbekannte Version</value>
+  </data>
+  <data name="InstalledForAllUsersHint" xml:space="preserve">
+    <value>Diese Schrift ist für alle Benutzer installiert. Windows bevorzugt diese Kopie, also zuerst unter Einstellungen › Personalisierung › Schriftarten entfernen.</value>
+  </data>
+  <data name="DowngradeConfirmFormat" xml:space="preserve">
+    <value>{0} durch die ältere {1} ersetzen?</value>
+  </data>
+  <data name="ReplaceUnknownConfirm" xml:space="preserve">
+    <value>Eine Schrift mit diesem Namen, nicht von Otis gebaut, ist installiert. Ersetzen?</value>
+  </data>
+  <data name="MissingSourceFormat" xml:space="preserve">
+    <value>{0} fehlt. Die Buchstaben darauf bleiben im Projekt erhalten.</value>
+  </data>
+  <data name="LoadingPage" xml:space="preserve">
+    <value>Seite wird geladen …</value>
+  </data>
+  <data name="SourceUnavailable" xml:space="preserve">
+    <value>Scan fehlt</value>
+  </data>
+  <data name="CoverageFormat" xml:space="preserve">
+    <value>{0} aus Vorlage · {1} abgeleitet · {2} fehlen</value>
+  </data>
+  <data name="NewerFormatHint" xml:space="preserve">
+    <value>Dieses Projekt stammt aus einem neueren Otis und ist nur lesbar.</value>
+  </data>
+  <data name="OpenFailedFormat" xml:space="preserve">
+    <value>{0} konnte nicht geöffnet werden: {1}</value>
+  </data>
+  <data name="RemoveConfirmFormat" xml:space="preserve">
+    <value>{0} aus der Schrift entfernen? Er wird dann abgeleitet oder fehlt.</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>Mehr</value>
+  </data>
+  <data name="Discard" xml:space="preserve">
+    <value>Nicht speichern</value>
+  </data>
+  <data name="UnsavedOnClose" xml:space="preserve">
+    <value>Einige Buchstaben haben ungespeicherte Änderungen. Vor dem Schliessen speichern?</value>
+  </data>
+  <data name="CreateFailedFormat" xml:space="preserve">
+    <value>Das Projekt konnte nicht erstellt werden: {0}</value>
+  </data>
+  <data name="AdjustTitle" xml:space="preserve">
+    <value>ANPASSEN</value>
+  </data>
+  <data name="GreyTracing" xml:space="preserve">
+    <value>Aus Graustufen nachzeichnen</value>
+  </data>
+  <data name="Smoothing" xml:space="preserve">
+    <value>Glätten</value>
+  </data>
+  <data name="SmoothingOff" xml:space="preserve">
+    <value>Aus</value>
+  </data>
+  <data name="SmoothingLight" xml:space="preserve">
+    <value>Leicht</value>
+  </data>
+  <data name="SmoothingMedium" xml:space="preserve">
+    <value>Mittel</value>
+  </data>
+  <data name="SmoothingStrong" xml:space="preserve">
+    <value>Stark</value>
+  </data>
+  <data name="Repair" xml:space="preserve">
+    <value>Ausbessern</value>
+  </data>
+  <data name="CloseGaps" xml:space="preserve">
+    <value>Lücken schliessen</value>
+  </data>
+  <data name="InkBrush" xml:space="preserve">
+    <value>Tinte</value>
+  </data>
+  <data name="Eraser" xml:space="preserve">
+    <value>Radierer</value>
+  </data>
+  <data name="BrushWidth" xml:space="preserve">
+    <value>Pinselbreite</value>
+  </data>
+  <data name="StrokeCountFormat" xml:space="preserve">
+    <value>{0} Tinten- · {1} Radierstriche</value>
+  </data>
+  <data name="UndoLastStroke" xml:space="preserve">
+    <value>Letzten Strich zurück</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="Applied" xml:space="preserve">
+    <value>Übernommen</value>
+  </data>
+  <data name="Adjusted" xml:space="preserve">
+    <value>Angepasst</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Übernehmen</value>
+  </data>
+  <data name="DiscardAdjustments" xml:space="preserve">
+    <value>Verwerfen</value>
+  </data>
+  <data name="PendingSwitchFormat" xml:space="preserve">
+    <value>Die Anpassungen an {0} vor dem Wechsel übernehmen?</value>
+  </data>
+  <data name="DetectLines" xml:space="preserve">
+    <value>Linien erkennen</value>
+  </data>
+  <data name="FindSimilar" xml:space="preserve">
+    <value>Ähnliche finden</value>
+  </data>
+  <data name="SearchProgressFormat" xml:space="preserve">
+    <value>Suche Seite {0} von {1} …</value>
+  </data>
+  <data name="MatchesFormat" xml:space="preserve">
+    <value>{0} Treffer. Anklicken zeigt ihn auf seiner Seite.</value>
+  </data>
+  <data name="NoMatches" xml:space="preserve">
+    <value>Keine ähnlichen Buchstaben gefunden.</value>
+  </data>
+  <data name="SearchCancelled" xml:space="preserve">
+    <value>Suche abgebrochen.</value>
+  </data>
+  <data name="UseMatch" xml:space="preserve">
+    <value>Diesen nehmen</value>
+  </data>
+  <data name="NoLinesFound" xml:space="preserve">
+    <value>Keine Textzeile um den Kasten gefunden. Linien bitte von Hand setzen.</value>
+  </data>
+  <data name="QualityFormat" xml:space="preserve">
+    <value>Qualität {0}</value>
+  </data>
+  <data name="Isolation" xml:space="preserve">
+    <value>freistehend</value>
+  </data>
+  <data name="Smoothness" xml:space="preserve">
+    <value>glatt</value>
+  </data>
+  <data name="Completeness" xml:space="preserve">
+    <value>vollständig</value>
+  </data>
+  <data name="Contrast" xml:space="preserve">
+    <value>Kontrast</value>
+  </data>
+  <data name="DeleteProject" xml:space="preserve">
+    <value>Projekt löschen …</value>
+  </data>
+  <data name="DeleteProjectHintFormat" xml:space="preserve">
+    <value>{0} und die Sicherungen ({1} Dateien) in den Papierkorb verschieben? Deine Scans bleiben unberührt, und eine in Windows installierte Schrift bleibt installiert.</value>
+  </data>
+  <data name="AlsoDeleteFontsFormat" xml:space="preserve">
+    <value>Auch die gebauten Schriften löschen ({0} Dateien)</value>
+  </data>
+  <data name="MoveToRecycleBin" xml:space="preserve">
+    <value>In den Papierkorb</value>
+  </data>
+  <data name="DeletedFormat" xml:space="preserve">
+    <value>{0} liegt jetzt im Papierkorb.</value>
+  </data>
+  <data name="DeleteFailedFormat" xml:space="preserve">
+    <value>{0} konnte nicht gelöscht werden: {1}</value>
+  </data>
+  <data name="SaveBeforeBuild" xml:space="preserve">
+    <value>Einige Buchstaben haben ungespeicherte Änderungen. Vor dem Bauen speichern?</value>
+  </data>
+  <data name="TypeWord" xml:space="preserve">
+    <value>Wort eintippen</value>
+  </data>
+  <data name="TypeWordTitle" xml:space="preserve">
+    <value>Welches Wort steht im Kasten?</value>
+  </data>
+  <data name="TypeWordHint" xml:space="preserve">
+    <value>Tippe es genau so ab, wie es geschrieben ist, mit Grossbuchstaben, Umlauten und ſ. Otis zerlegt es in Buchstaben und übernimmt die, die noch fehlen.</value>
+  </data>
+  <data name="Split" xml:space="preserve">
+    <value>Zerlegen</value>
+  </data>
+  <data name="WordAddedFormat" xml:space="preserve">
+    <value>Neue Entwürfe: {0}. Bitte prüfen und speichern.</value>
+  </data>
+  <data name="WordSkippedFormat" xml:space="preserve">
+    <value>Schon vorhanden: {0}.</value>
+  </data>
+  <data name="WordNothingNew" xml:space="preserve">
+    <value>Alle Buchstaben dieses Wortes sind schon vorhanden.</value>
+  </data>
+  <data name="ReadWithClaude" xml:space="preserve">
+    <value>Mit Claude lesen</value>
+  </data>
+  <data name="ReadThisPage" xml:space="preserve">
+    <value>Diese Seite</value>
+  </data>
+  <data name="ReadAllPages" xml:space="preserve">
+    <value>Alle Seiten</value>
+  </data>
+  <data name="ReadNoticeFormat" xml:space="preserve">
+    <value>Otis schickt {0} an Anthropic, die Firma hinter Claude, damit Claude die Wörter liest. Die Bilder werden auf Servern von Anthropic verarbeitet, möglicherweise ausserhalb Europas, und über deinen API-Schlüssel abgerechnet. Sonst wird nichts aus deinem Projekt verschickt. Weiter?</value>
+  </data>
+  <data name="ReadNoticeThisPage" xml:space="preserve">
+    <value>ein Bild dieser Seite</value>
+  </data>
+  <data name="ReadNoticeAllPagesFormat" xml:space="preserve">
+    <value>Bilder aller {0} Seiten</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Senden</value>
+  </data>
+  <data name="ReadingPageFormat" xml:space="preserve">
+    <value>Claude liest Seite {0} von {1} …</value>
+  </data>
+  <data name="ReadAddedFormat" xml:space="preserve">
+    <value>Claude hat {0} Wörter gelesen. Neue Entwürfe: {1}. Bitte prüfen und speichern.</value>
+  </data>
+  <data name="ReadNothingNewFormat" xml:space="preserve">
+    <value>Claude hat {0} Wörter gelesen, aber keinen Buchstaben gefunden, der noch fehlt.</value>
+  </data>
+  <data name="ReadingCancelled" xml:space="preserve">
+    <value>Lesen abgebrochen.</value>
+  </data>
+  <data name="ApiKeyMissing" xml:space="preserve">
+    <value>Hinterlege zuerst deinen Anthropic-API-Schlüssel in den Einstellungen auf dem Startbildschirm.</value>
+  </data>
+  <data name="ReadProblemInvalidKey" xml:space="preserve">
+    <value>Anthropic akzeptiert den API-Schlüssel nicht. Bitte in den Einstellungen prüfen.</value>
+  </data>
+  <data name="ReadProblemNoAccess" xml:space="preserve">
+    <value>Dieser API-Schlüssel darf Claude Opus nicht verwenden. Bitte das Anthropic-Konto prüfen.</value>
+  </data>
+  <data name="ReadProblemTooManyRequests" xml:space="preserve">
+    <value>Zu viele Anfragen oder kein Guthaben mehr. Kurz warten oder das Anthropic-Konto prüfen.</value>
+  </data>
+  <data name="ReadProblemServiceBusy" xml:space="preserve">
+    <value>Claude ist gerade ausgelastet. In ein paar Minuten nochmals versuchen.</value>
+  </data>
+  <data name="ReadProblemNoConnection" xml:space="preserve">
+    <value>Keine Verbindung zu Anthropic. Bitte die Internetverbindung prüfen.</value>
+  </data>
+  <data name="ReadProblemDeclined" xml:space="preserve">
+    <value>Claude hat das Lesen dieser Seite abgelehnt.</value>
+  </data>
+  <data name="ReadProblemUnreadable" xml:space="preserve">
+    <value>Die Antwort von Claude war unverständlich. Bitte nochmals versuchen.</value>
+  </data>
+  <data name="ReadProblemOther" xml:space="preserve">
+    <value>Lesen fehlgeschlagen: {0}</value>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>Anthropic-API-Schlüssel (optional)</value>
+  </data>
+  <data name="ApiKeyHint" xml:space="preserve">
+    <value>Nur für «Mit Claude lesen» nötig. Wird verschlüsselt für dein Windows-Konto gespeichert, nie in Projektdateien.</value>
+  </data>
+  <data name="ApiKeySaved" xml:space="preserve">
+    <value>Ein Schlüssel ist gespeichert. Zum Ersetzen einen neuen eintippen.</value>
+  </data>
+  <data name="RemoveApiKey" xml:space="preserve">
+    <value>Gespeicherten Schlüssel entfernen</value>
+  </data>
+</root>

@@ -37,6 +37,34 @@ Ink inside an erasure rectangle SHALL be removed before connected parts are eval
 - **WHEN** an erasure covers the stem of a neighbouring `i`
 - **THEN** that stem is gone and the remaining parts are judged without it
 
+### Requirement: Close gaps
+Each cutout MAY set how far small gaps are closed: 0 to 6 iterations of 3×3 closing (default 2).
+Higher values bridge breaks in thin strokes; they can also fill small counters, which the preview
+shows.
+
+#### Scenario: Broken hairline closes
+- **WHEN** a stroke is broken by a 4-pixel gap and "Close gaps" is set to 3
+- **THEN** the stroke is one connected part
+
+### Requirement: Ink strokes
+Each cutout MAY carry ink strokes: polylines with a width in page pixels, painted by the user to
+repair hairlines the scan lost. Strokes SHALL be added after erasures and inside the outline polygon,
+before connected parts are evaluated, so that a repaired piece is never dropped as a speck.
+
+#### Scenario: Repaired hairline
+- **WHEN** a flourish is broken and the user paints a stroke across the break
+- **THEN** both halves and the stroke form one part
+
+### Requirement: Eraser strokes
+Each cutout MAY carry eraser strokes: polylines with a width in page pixels that remove ink, for
+small pieces of a neighbouring letter that a rectangle cannot reach. Eraser strokes SHALL be applied
+together with the rectangle erasures, before ink strokes are added. Erased areas SHALL also stay
+empty when tracing from the grey scan.
+
+#### Scenario: Neighbour's tip removed
+- **WHEN** the tip of the next letter's flourish reaches into the cutout and the user paints over it with the eraser
+- **THEN** that tip is not part of the letter, in the preview and in the font
+
 ### Requirement: Specks are dropped
 After erasing, connected ink parts (8-neighbourhood) smaller than 6 % of the largest part SHALL be
 dropped; the threshold is overridable per cutout. Separate parts above it, such as the dot of an

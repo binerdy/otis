@@ -4,8 +4,7 @@ Otis turns hand lettering into an installable font. Open scanned pages, mark one
 each letter, and Otis cuts it out, traces it into smooth curves and builds a TrueType font that
 works in Word and every other Windows program.
 
-> Status: specification. The capabilities are described in [`openspec/specs`](openspec/specs);
-> the implementation follows.
+> Status: early development (0.1). The capabilities are described in [`openspec/specs`](openspec/specs).
 
 ## How it works
 
@@ -69,6 +68,10 @@ This program will not transfer any information to other networked systems unless
 requested by the user or the person installing or operating it. The only network access is the
 **update check**, which contacts GitHub Releases at startup and every four hours to download new
 versions of Otis. No personal data, scans or fonts are sent.
+
+The optional **Read with Claude** feature sends the pages you choose to Anthropic's API, which may
+process them outside your country or region, using your own API key. It runs only after you enter a
+key in Settings and confirm the notice shown before the first request. Without a key nothing is sent.
 
 ## License
 
